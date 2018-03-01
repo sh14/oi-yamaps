@@ -31,10 +31,14 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Screenshots
 
-1. Shortcode in admin panel: ![alt text](screenshot-1.png)
-2. Map on a front page: ![alt text](screenshot-2.png) 
-3. Shortcode button: ![alt text](screenshot-3.png) 
-4. Visual shortcode editor: ![alt text](screenshot-4.png) 
+1. Shortcode in admin panel: 
+![alt text](screenshot-1.png)
+2. Map on a front page: 
+![alt text](screenshot-2.png) 
+3. Shortcode button: 
+![alt text](screenshot-3.png) 
+4. Visual shortcode editor: 
+![alt text](screenshot-4.png) 
 
 ## Changelog
 
