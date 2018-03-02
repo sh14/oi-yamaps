@@ -126,7 +126,7 @@ function oi_yamaps_defaults() {
 		'height'         => '400px',
 		'width'          => '100%',
 		'zoom'           => '16',
-		'placemark'      => 'twirl#blueDotIcon',
+		'placemark'      => 'islands#blueDotIcon',
 		'author_link'    => '1',
 		'show_by_click'  => 0,
 		'address'        => '',
@@ -142,11 +142,6 @@ function oi_yamaps_defaults() {
 		'iconsize'       => '',
 		'iconoffset'     => '',
 		'iconrect'       => '',
-		'zoomcontrol'    => 1,
-		'typeselector'   => 1,
-		'maptools'       => 1,
-		'trafficcontrol' => 1,
-		'routeeditor'    => 1,
 		'controls'       => 'fullscreenControl,geolocationControl,rulerControl,routeEditor,typeSelector,zoomControl,searchControl,trafficControl',
 		'behaviors'      => 'dblClickZoom,drag,multiTouch,rightMouseButtonMagnifier,scrollZoom',
 	);
@@ -489,12 +484,12 @@ function showyamap( $atts, $content = null ) {
 	$map_options = array();
 	// perform behaviors list
 	$map_options[] = map_options_add( array(
-		'data'             => $atts,
-		'name'             => 'behaviors',
-		'positive_before'  => "'",
-		'positive_after'   => "',",
-		'negative_before'  => "'",
-		'negative_after'   => "',",
+		'data'                      => $atts,
+		'name'                      => 'behaviors',
+		'positive_before'           => "'",
+		'positive_after'            => "',",
+		'negative_before'           => "'",
+		'negative_after'            => "',",
 		'container_positive_before' => "myMap.behaviors.enable([",
 		'container_positive_after'  => "]);",
 		'container_negative_before' => "myMap.behaviors.disable([",
@@ -755,8 +750,12 @@ function placemark_code( $atts ) {
 	), $atts );
 
 	// if content for placemark given, make placemark stretch
-	if ( $atts['iconcontent'] != '' ) {
-		$atts['placemark'] = str_replace( 'Icon', 'StretchyIcon', str_replace( 'Dot', '', $atts['placemark'] ) );
+	if ( ! empty( $atts['iconcontent'] ) ) {
+
+		// remove icon name with 2.1 API name
+		$atts['placemark'] = str_replace( 'twirl', 'islands', $atts['placemark'] );
+		$atts['placemark'] = str_replace( 'Dot', '', $atts['placemark'] );
+		$atts['placemark'] = str_replace( 'Icon', 'StretchyIcon', $atts['placemark'] );
 	}
 
 	if ( $atts['iconcontent'] ) {
