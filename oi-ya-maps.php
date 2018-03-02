@@ -78,27 +78,42 @@ function oi_yamaps() {
 // do something on plugin activation
 register_activation_hook( __FILE__, 'oi_yamaps_activation' );
 
-
+/**
+ * List of some names of API gists
+ *
+ * @param $key
+ *
+ * @return mixed
+ */
 function get_api_names( $key ) {
 	$names = array(
-		'controls' => array(
-			'fullscreenControl',
-			'geolocationControl',
-			'rulerControl',
+		'controls'  => array(
 			//'mapTools', // depricated
-			'routeEditor',
-			'typeSelector',
-			'zoomControl',
 			//'smallZoomControl', // depricated
 			//'scaleLine', // depricated
 			//'miniMap', // depricated
+			'fullscreenControl',
+			'geolocationControl',
+			'rulerControl',
+			'routeEditor',
+			'typeSelector',
+			'zoomControl',
 			'searchControl',
 			'trafficControl',
+		),
+		'behaviors' => array(
+			'dblClickZoom',
+			'drag',
+			'leftMouseButtonMagnifier',
+			'multiTouch',
+			'rightMouseButtonMagnifier',
+			'scrollZoom',
 		),
 	);
 
 	return $names[ $key ];
 }
+
 
 /**
  * Список значений настроек по умолчанию
@@ -107,34 +122,33 @@ function get_api_names( $key ) {
  */
 function oi_yamaps_defaults() {
 	$defaults = array(
-		'lang'              => get_locale(),
-		'height'            => '400px',
-		'width'             => '100%',
-		'zoom'              => '16',
-		'placemark'         => 'twirl#blueDotIcon',
-		'author_link'       => '1',
-		'show_by_click'     => 0,
-		'address'           => '',
-		'center'            => '',
-		'header'            => '',
-		'body'              => '',
-		'footer'            => '',
-		'hint'              => '',
-		'coordinates'       => '',
-		'iconimage'         => '',
-		'button_caption'    => __( 'Show the map', 'oiyamaps' ),
-		'iconcontent'       => '',
-		'iconsize'          => '',
-		'iconoffset'        => '',
-		'iconrect'          => '',
-		'zoomcontrol'       => 1,
-		'typeselector'      => 1,
-		'maptools'          => 1,
-		'trafficcontrol'    => 1,
-		'routeeditor'       => 1,
-		'controls'          => 'zoomcontrol,typeselector,maptools,trafficcontrol,routeeditor,scaleLine',
-		//'controls'          => 'zoomcontrol,typeselector,maptools,trafficcontrol,routeeditor,scaleLine,miniMap,smallZoomControl,searchControl',
-		'behaviors-disable' => 'LeftMouseButtonMagnifier,DblClickZoom,scrollZoom',
+		'lang'           => get_locale(),
+		'height'         => '400px',
+		'width'          => '100%',
+		'zoom'           => '16',
+		'placemark'      => 'twirl#blueDotIcon',
+		'author_link'    => '1',
+		'show_by_click'  => 0,
+		'address'        => '',
+		'center'         => '',
+		'header'         => '',
+		'body'           => '',
+		'footer'         => '',
+		'hint'           => '',
+		'coordinates'    => '',
+		'iconimage'      => '',
+		'button_caption' => __( 'Show the map', 'oiyamaps' ),
+		'iconcontent'    => '',
+		'iconsize'       => '',
+		'iconoffset'     => '',
+		'iconrect'       => '',
+		'zoomcontrol'    => 1,
+		'typeselector'   => 1,
+		'maptools'       => 1,
+		'trafficcontrol' => 1,
+		'routeeditor'    => 1,
+		'controls'       => 'fullscreenControl,geolocationControl,rulerControl,routeEditor,typeSelector,zoomControl,searchControl,trafficControl',
+		'behaviors'      => 'dblClickZoom,drag,multiTouch,rightMouseButtonMagnifier,scrollZoom',
 	);
 
 	return $defaults;
@@ -346,89 +360,106 @@ function array_cut_list( $atts ) {
 /**
  * Perform controls list for JavaScript API
  *
- * @param $enable_controls
+ * @param $user_list
  *
  * @return array|string
  */
-function controls_add( $enable_controls ) {
-pr($enable_controls);
+function map_options_add( $atts ) {
+
+	$atts = wp_parse_args( $atts, array(
+		'data'                      => [],
+		'name'                      => '',
+		'positive_before'           => "'",
+		'positive_after'            => "',",
+		'negative_before'           => '',
+		'negative_after'            => ',',
+		'container_positive_before' => '([',
+		'container_positive_after'  => '])',
+		'container_negative_before' => '([',
+		'container_negative_after'  => '])',
+	) );
+
+	if ( empty( $atts['data'] ) || empty( $atts['name'] ) ) {
+		return '';
+	}
+
+	// get user's list of options
+	$user_list = $atts['data'][ $atts['name'] ];
+
 	// get controls match list
-	$controls = get_match_list( get_api_names( 'controls' ) );
+	$matches = get_match_list( get_api_names( $atts['name'] ) );
 
-	// if $enable_controls not emty
-	if ( ! empty( $enable_controls ) ) {
+	// if $user_list not emty
+	if ( ! empty( $user_list ) ) {
 
-		// if $enable_controls is a string
-		if ( is_string( $enable_controls ) ) {
+		// if $user_list is a string
+		if ( is_string( $user_list ) ) {
 
 			// convert it to an array
-			$enable_controls = explode( ',', $enable_controls );
+			$user_list = explode( ',', $user_list );
 		}
 
 		// trim every element
-		$enable_controls = array_map( 'trim', $enable_controls );
-		$enable_controls = array_map( 'strtolower', $enable_controls );
+		$user_list = array_map( 'trim', $user_list );
+		$user_list = array_map( 'strtolower', $user_list );
 	} else {
 
-		// set $enable_controls equal to $controls
-		$enable_controls = $controls;
-		unset( $enable_controls['smallzoomcontrol'] );
-		//unset( $enable_controls['searchcontrol'] );
-		$enable_controls = array_keys( $enable_controls );
+		// set $user_list equal to keys of $matches
+		$user_list = array_keys( $matches );
 	}
 
 	// set new array
-	$controls_add    = array();
-	$controls_remove = array();
+	$gist_add    = array();
+	$gist_remove = array();
 
 	// loop control list
-	foreach ( $controls as $key => $value ) {
+	foreach ( $matches as $key => $value ) {
 
 		// if control exists
-		if ( in_array( $key, $enable_controls ) ) {
+		if ( in_array( $key, $user_list ) ) {
 
 			// add list
-			$controls_add[] = $value;
+			$gist_add[] = $value;
 		} else {
 
 			// remove list
-			$controls_remove[] = $value;
+			$gist_remove[] = $value;
 		}
 	}
 
 	// remove control
-	$controls_remove = array_cut_list( array(
-		'list'   => $controls_remove,
-		'before' => "\n" . '.remove("',
-		'after'  => '")',
+	$gist_remove = array_cut_list( array(
+		'list'   => $gist_remove,
+		'before' => $atts['negative_before'],
+		'after'  => $atts['negative_after'],
 	) );
 
 	// add control
-	$controls_add = array_cut_list( array(
-		'list'   => $controls_add,
-		'before' => "\n" . '.add("',
-		'after'  => '")',
+	$gist_add = array_cut_list( array(
+		'list'   => $gist_add,
+		'before' => $atts['positive_before'],
+		'after'  => $atts['positive_after'],
 	) );
 
 
-	$controls = array();
+	$matches = array();
 
 	// -- save the order: remove then add -- //
 
-	// if $controls_remove not empty
-	if ( ! empty( $controls_remove ) ) {
+	// if $gist_remove not empty
+	if ( ! empty( $gist_remove ) ) {
 
-		$controls[] = 'myMap.controls' . $controls_remove . ';';
+		$matches[] = $atts['container_negative_before'] . $gist_remove . $atts['container_negative_after'];
 	}
 
-	// if $controls_add not empty
-	if ( ! empty( $controls_add ) ) {
+	// if $gist_add not empty
+	if ( ! empty( $gist_add ) ) {
 
-		$controls[] = 'myMap.controls' . $controls_add . ';';
+		$matches[] = $atts['container_positive_before'] . $gist_add . $atts['container_positive_after'];
 	}
 
 
-	return implode( "\n", $controls );
+	return implode( "\n", $matches );
 }
 
 
@@ -443,8 +474,7 @@ pr($enable_controls);
 function showyamap( $atts, $content = null ) {
 	// get attributes from options
 	$option = wp_parse_args( get_option( OIYM_PREFIX . 'options' ), oi_yamaps_defaults() );
-pr($option);
-pr($atts);
+
 	// get attributes of concrete map
 	$atts = wp_parse_args( $atts, $option );
 
@@ -456,17 +486,36 @@ pr($atts);
 		$atts['button_caption'] = __( 'Показать карту', 'oiyamaps' );
 	}
 
-	if ( ! empty( $atts['behaviors-disable'] ) ) {
-		$atts['behaviors-disable'] = "myMap.behaviors.disable([" . array_cut_list( array(
-				'list'    => $atts['behaviors-disable'],
-				'before'  => "'",
-				'between' => ',',
-				'after'   => "'",
-			) ) . "]);";
-	}
+	$map_options = array();
+	// perform behaviors list
+	$map_options[] = map_options_add( array(
+		'data'             => $atts,
+		'name'             => 'behaviors',
+		'positive_before'  => "'",
+		'positive_after'   => "',",
+		'negative_before'  => "'",
+		'negative_after'   => "',",
+		'container_positive_before' => "myMap.behaviors.enable([",
+		'container_positive_after'  => "]);",
+		'container_negative_before' => "myMap.behaviors.disable([",
+		'container_negative_after'  => "]);",
+	) );
 
 	// perform controls list
-	$atts['controls'] = controls_add( $atts['controls'] );
+	$map_options[] = map_options_add( array(
+		'data'                      => $atts,
+		'name'                      => 'controls',
+		'positive_before'           => "\n" . 'myMap.controls.add("',
+		'positive_after'            => '");',
+		'negative_before'           => "\n" . '.remove("',
+		'negative_after'            => '")',
+		'container_positive_before' => '',
+		'container_positive_after'  => '',
+		'container_negative_before' => 'myMap.controls',
+		'container_negative_after'  => ';',
+	) );
+
+	$map_options = implode( "\n", $map_options );
 
 
 	// set id of map block
@@ -615,13 +664,15 @@ pr($atts);
 			center: [' . $atts['center'] . '],
 			zoom: ' . $atts['zoom'] . '
 		});
-		' . $atts['behaviors-disable'] . '
-		' . $atts['controls'] . '
+		'
+			. $map_options
+			. '
 		' . $atts['placemark_code'] . '
 	}
 	' .
 			$atts['btn_e'] .
 			'</script>';
+
 		// set new id
 		Ya_map_connected::$id ++;
 		// if no maps on a page...
