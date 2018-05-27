@@ -50,7 +50,6 @@
 
 		// look for needed element
 		do {
-			console.log( closest.css( property ) + ' - ' + closest.prop( 'tagName' ) );
 			closest = closest.parent();
 		} while ( closest.css( property ) !== value && closest.prop( 'tagName' ) !== 'BODY' );
 
@@ -87,21 +86,49 @@
 
 
 	/**
-	 * Serialize form to an object.
+	 * Serialize form to an object including empty fields.
 	 *
 	 * @param format
 	 * @returns {*}
 	 */
 	$.fn.serializeObject = function ( format ) {
-		let obj = {};
-		let arr = this.serializeArray();
-		let n   = [];
-		let s   = [];
-		let a   = [];
+		let obj  = {};
+		let arr2 = [];
+		let val;
+
+		$.each( $( this ).find( '[name]' ), function ( i, el ) {
+			let that = $( el );
+			val      = that.val();
+
+			if ( that.attr( 'type' ) !== undefined && that.attr( 'type' ) === 'checkbox' ) {
+				if ( that.prop( 'checked' ) ) {
+					arr2.push( { name : that.attr( 'name' ), value : val } );
+				} else {
+					arr2.push( { name : that.attr( 'name' ), value : '' } );
+				}
+			} else {
+				if ( that.attr( 'multiple' ) !== undefined ) {
+
+					if ( val === null ) {
+						arr2.push( { name : that.attr( 'name' ), value : '' } );
+					} else {
+						$.each( val, function ( j, v ) {
+							arr2.push( { name : that.attr( 'name' ), value : v } );
+						} );
+					}
+				} else {
+					arr2.push( { name : that.attr( 'name' ), value : val } );
+				}
+			}
+		} );
+
+		let n = [];
+		let s = [];
+		let a = [];
 		let out;
 
 		// turn to associative array
-		$.each( arr, function () {
+		$.each( arr2, function () {
 			if ( obj[ this.name ] ) {
 				if ( !obj[ this.name ].push ) {
 					obj[ this.name ] = [ obj[ this.name ] ];
@@ -212,7 +239,7 @@
 	 * @param data
 	 * @param default_data
 	 * @param ignore - list of keys that should be replaced if they empty
-	 * @param replace - list of keys that should be replaced if they empty
+	 * @param replace - list of keys that should be replaced with given if they empty
 	 * @returns {string}
 	 */
 	function make_query( data, default_data, ignore, replace ) {
@@ -220,28 +247,31 @@
 		if ( ignore === undefined ) {
 			ignore = [];
 		}
-		console.log( ignore );
 		if ( replace === undefined ) {
 			replace = [];
 		}
-		console.log( replace );
+
 		for ( let key in data ) {
 			if ( data.hasOwnProperty( key ) ) {
 				if ( Array.isArray( data[ key ] ) ) {
 					data[ key ] = data[ key ].join( ',' );
 				}
-				console.log( key );
-				console.log( data[ key ] );
-				console.log( default_data[ key ] );
+
 				if ( data[ key ] !== default_data[ key ] ) {
 
-					if ( !(data[ key ] === '' && ignore.indexOf( key ) >= 0 && replace[ key ] === undefined) ) {
-						query.push( key + '="' + data[ key ] + '"' );
-					} else if ( data[ key ] === '' && replace[ key ] !== undefined ) {
-						console.log( key + '!  ' );
-						data[ key ] = replace[ key ];
+					if ( data[ key ] === [] || data[ key ] === '' || data[ key ] === undefined ) {
+
+						if ( ignore.indexOf( key ) < 0 ) {
+							if ( replace[ key ] !== undefined ) {
+								data[ key ] = replace[ key ];
+							}
+							query.push( key + '="' + data[ key ] + '"' );
+						}
+					} else {
 						query.push( key + '="' + data[ key ] + '"' );
 					}
+
+
 				}
 			}
 		}
@@ -294,7 +324,6 @@
 		let shortcode  = {};
 		let data       = form.serializeObject();
 		let attributes = {};
-		console.log( data );
 
 		// loop getted data and remove empty attribus
 		for ( let key in data ) {
@@ -318,15 +347,14 @@
 	 * @param obj
 	 */
 	function gist_add( obj ) {
-		let form = $( obj );
-		let data = get_form_data( obj );
-		console.log( data );
-		console.log( data[ 'attributes' ] );
-		console.log( data[ 'attributes' ][ 'address' ] );
+		let form      = $( obj );
+		let data      = get_form_data( obj );
 		let address   = data[ 'attributes' ][ 'address' ];
 		let id        = 0;
 		let shortcode = JSON.stringify( data );
 		shortcode     = encodeURI( shortcode );
+
+		$( '.oiyamaps-error' ).remove();
 
 		// if placemark address has been seted
 		if ( address !== '' && address !== undefined ) {
@@ -361,7 +389,7 @@
 				// show adding button
 				$( '.js-' + data[ 'gist' ] + '_form_show_oiyamaps' ).removeClass( 'oiyamaps-hidden' );
 			}
-			$( '.oiyamaps-error' ).remove();
+
 			form[ 0 ].reset();
 		} else {
 			let address = $( '.js-address_oiyamaps' );
@@ -405,9 +433,8 @@
 				}
 			}
 
-			console.log( shortcode_inner.join( '' ) );
-			console.log( oiyamaps );
-			query = make_query( shortcode[ insert_gist ], oiyamaps[ 'options' ] );
+
+			query = make_query( shortcode[ insert_gist ], oiyamaps[ 'options' ], [ 'center' ], { 'controls' : 'none', } );
 			let inner;
 			if ( shortcode_inner.join( '' ).trim() !== '' ) {
 				inner = "\n" + shortcode_inner.join( "\n" );
@@ -420,14 +447,13 @@
 			shortcode = '[' + insert_gist + ' ' + query + '/]';
 		}
 
-		console.log( shortcode );
 		//window.send_to_editor( shortcode[ attr ] );
 		//oiyamaps_hide_modal();
 	}
 
 	$( document.body ).on( 'submit', '.js-form_oiyamaps', function ( event ) {
 		event.preventDefault();
-		console.log( 'asd' );
+
 		let gist = $( this ).attr( 'data-gist' );
 		if ( gist === 'placemark' ) {
 			gist_add( this );
@@ -442,6 +468,7 @@
 		let form_show       = $( '.js-placemark_form_show_oiyamaps' );
 		let placemark_form  = $( '.js-placemark_form_oiyamaps' );
 		let placemarks_list = $( '.js-placemark_list_oiyamaps' );
+		let map_add_block   = $( '.js-map-add-block' );
 
 		switch ( action ) {
 			case 'placemark-form__show':
@@ -454,6 +481,9 @@
 
 				// show placemark form
 				placemark_form.removeClass( 'oiyamaps-hidden' );
+
+				// show placemark form
+				map_add_block.addClass( 'oiyamaps-hidden' );
 				break;
 			case 'placemark-form__hide':
 
@@ -465,6 +495,9 @@
 
 				// show placemark form
 				placemark_form.addClass( 'oiyamaps-hidden' );
+
+				// show placemark form
+				map_add_block.removeClass( 'oiyamaps-hidden' );
 				break;
 		}
 	}
@@ -541,10 +574,8 @@
 
 
 	function get_map_shortcode() {
-		let shortcode = $( '.js-form_map_oiyamaps' ).serializeObject();
-		let query     = make_query( shortcode, oiyamaps[ 'options' ], [ 'center' ], { 'controls' : 'none', } );
-
-		return query;
+		let data = $( '.js-form_map_oiyamaps' ).serializeObject();
+		return make_query( data, oiyamaps[ 'options' ], [ 'center' ], { 'controls' : 'none', } );
 	}
 
 
@@ -557,9 +588,7 @@
 			}
 		}
 		shortcode = '[' + shortcode.join( ' ' ) + '/]';
-		console.log( shortcode );
 
-		// todo: взять insert_oi_yamaps и доработать - там есть обработка всех форм!
 		return shortcode;
 	}
 
@@ -572,7 +601,6 @@
 	function get_shortcode_json_as_array( json ) {
 		json = decodeURI( json );
 		json = JSON.parse( json );
-		console.log( json );
 
 		return json;
 	}

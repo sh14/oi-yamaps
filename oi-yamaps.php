@@ -4,30 +4,15 @@ Plugin Name: Oi Yandex.Maps for WordPress
 Plugin URI: https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/
 Description: The plugin allows you to use Yandex.Maps on your site pages and put the placemarks on the map. Without an API key.
 Author: Alexei Isaenko
-Version: 2.51
-Author URI: http://www.sh14.ru
-This plugin is Copyright 2012 Sh14.ru. All rights reserved.
+Version: 3.0
+Author URI: https://oiplug.com/members/isaenkoalexei
 */
 
-/*
-// Date: 25.04.2014 - make code as a single plugin from other big project
-// Date: 20.05.2014 - Stretchy Icons support added  
-// Date: 21.07.2014 - 2.0 release
-// Date: 22.07.2014 - 2.1 fix html in placemark; center parametr added; curl enable check
-// Date: 16.09.2014 - 2.2 fix error when coordinates used; added shortcode button; localization
-// Date: 08.12.2014 - 2.3 fix showmap coordinates missing; map center; added custom image; placemarks;
-// Date: 21.10.2015 - 2.4 fix notices; form view; shortcode making; plugin url;
-// Date: 21.10.2015 - 2.41 fix нормальное отображение center при указании;
-// Date: 21.10.2015 - 2.42 fix удален вывод координат перед картой;
-// Date: 05.08.2017 - 2.50 добавлено кэширование получения координат адреса, переписана функция определения координат,
-оставлено одно поле для ввода адреса или координат;
-
-*/
 
 namespace oiyamaps;
 
 /**
- * Function returns path to the current plugin: `/htdocs/wp-content/plugins/oi-frontend/`
+ * Function returns path to the current plugin
  *
  * @return string
  */
@@ -40,12 +25,12 @@ function plugin_path() {
  *
  * @return string
  */
-function plugin_url() { 
+function plugin_url() {
 	return plugin_dir_url( __FILE__ );
 }
 
 /**
- * Function returns name of current plugin directory: `oi-frontend`
+ * Function returns name of current plugin directory
  *
  * @return string
  */
@@ -57,17 +42,17 @@ require_once "include/init.php";
 if ( ! function_exists( 'oinput_form' ) ) {
 	require_once 'include/oi-nput.php';
 }
-if (  function_exists( 'oinput_form' ) ) {
+if ( function_exists( 'oinput_form' ) ) {
 	require_once "include/templates.php";
-	require_once "include/options.php";
 	require_once "include/console.php";
+	require_once "include/options.php";
 }
 //require_once "include/tinymce/shortcode.php";
 
 
 // localization
 function oi_yamaps() {
-	load_plugin_textdomain( __NAMESPACE__, false, plugin_basename( dirname( __FILE__ ) ) . '/lang' );
+	load_plugin_textdomain( 'oi-yamaps', false, plugin_basename( dirname( __FILE__ ) ) . '/language' );
 }
 
 add_action( 'init', __NAMESPACE__ . '\oi_yamaps' );
@@ -91,75 +76,75 @@ function get_api_names( $key ) {
 			//'scaleLine', // depricated
 			//'miniMap', // depricated
 			'fullscreenControl'  => array(
-				'caption' => __( 'Fullscreen control button', 'xxx' ),
-				'hint'    => __( 'Stretches map to fullscreen mode.', 'xxx' ),
+				'caption' => __( 'Fullscreen control button', 'oi-yamaps' ),
+				'hint'    => __( 'Stretches map to fullscreen mode.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'geolocationControl' => array(
-				'caption' => __( 'Geolocation control button', 'xxx' ),
-				'hint'    => __( "Gives an ability to get user's position", 'xxx' ),
+				'caption' => __( 'Geolocation control button', 'oi-yamaps' ),
+				'hint'    => __( "Gives an ability to get user's position", 'oi-yamaps' ),
 				'default' => true,
 			),
 			'rulerControl'       => array(
-				'caption' => __( 'Ruler control button', 'xxx' ),
-				'hint'    => __( 'Shows the map scale.', 'xxx' ),
+				'caption' => __( 'Ruler control button', 'oi-yamaps' ),
+				'hint'    => __( 'Shows the map scale.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'routeEditor'        => array(
-				'caption' => __( 'Route editor control button', 'xxx' ),
-				'hint'    => __( 'Gives an ability to build a route.', 'xxx' ),
+				'caption' => __( 'Route editor control button', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to build a route.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'typeSelector'       => array(
-				'caption' => __( 'Type select controler', 'xxx' ),
-				'hint'    => __( 'Gives an ability to choose map mode.', 'xxx' ),
+				'caption' => __( 'Type select controler', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to choose map mode.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'zoomControl'        => array(
-				'caption' => __( 'Zoom control button', 'xxx' ),
-				'hint'    => __( 'Gives an ability to change map scale.', 'xxx' ),
+				'caption' => __( 'Zoom control button', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to change map scale.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'searchControl'      => array(
-				'caption' => __( 'Search field', 'xxx' ),
-				'hint'    => __( 'Gives an ability to search for locations.', 'xxx' ),
+				'caption' => __( 'Search field', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to search for locations.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'trafficControl'     => array(
-				'caption' => __( 'Traffic control button', 'xxx' ),
-				'hint'    => __( 'Gives an ability to show or hide traffic lines.', 'xxx' ),
+				'caption' => __( 'Traffic control button', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to show or hide traffic lines.', 'oi-yamaps' ),
 				'default' => true,
 			),
 		),
 		'behaviors' => array(
 			'dblClickZoom'              => array(
-				'caption' => __( 'Double Click Zoom', 'xxx' ),
-				'hint'    => __( 'Gives an ability to zoom in by left mouse button and zoom out by right.', 'xxx' ),
+				'caption' => __( 'Double Click Zoom', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to zoom in by left mouse button and zoom out by right.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'drag'                      => array(
-				'caption' => __( 'Map draging', 'xxx' ),
-				'hint'    => __( 'Gives an ability to drag the map.', 'xxx' ),
+				'caption' => __( 'Map draging', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to drag the map.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'multiTouch'                => array(
-				'caption' => __( 'Multitouch', 'xxx' ),
-				'hint'    => __( 'Gives an ability to change map scale with multitouch.', 'xxx' ),
+				'caption' => __( 'Multitouch', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to change map scale with multitouch.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'leftMouseButtonMagnifier'  => array(
-				'caption' => __( 'Left mouse button magnifier', 'xxx' ),
-				'hint'    => __( 'Gives an ability to change map scale by choose zooming area with left mouse button.', 'xxx' ),
+				'caption' => __( 'Left mouse button magnifier', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to change map scale by choose zooming area with left mouse button.', 'oi-yamaps' ),
 				'default' => false,
 			),
 			'rightMouseButtonMagnifier' => array(
-				'caption' => __( 'Right mouse button magnifier', 'xxx' ),
-				'hint'    => __( 'Gives an ability to change map scale by choose zooming area with right mouse button.', 'xxx' ),
+				'caption' => __( 'Right mouse button magnifier', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to change map scale by choose zooming area with right mouse button.', 'oi-yamaps' ),
 				'default' => true,
 			),
 			'scrollZoom'                => array(
-				'caption' => __( 'Scroll zoom', 'xxx' ),
-				'hint'    => __( 'Gives an ability to change map scale by scrolling.', 'xxx' ),
+				'caption' => __( 'Scroll zoom', 'oi-yamaps' ),
+				'hint'    => __( 'Gives an ability to change map scale by scrolling.', 'oi-yamaps' ),
 				'default' => true,
 			),
 		),
@@ -191,14 +176,14 @@ function oi_yamaps_defaults() {
 		'hint'           => '',
 		'coordinates'    => '',
 		'iconimage'      => '',
-		'button_caption' => __( 'Show the map', 'oiyamaps' ),
+		'button_caption' => __( 'Show the map', 'oi-yamaps' ),
 		'iconcontent'    => '',
 		'iconcaption'    => '',
 		'iconsize'       => '',
 		'iconoffset'     => '',
 		'iconrect'       => '',
-		'controls'       => 'fullscreenControl,geolocationControl,rulerControl,routeEditor,typeSelector,zoomControl,searchControl,trafficControl',
-		'behaviors'      => 'dblClickZoom,drag,multiTouch,rightMouseButtonMagnifier,scrollZoom',
+		'controls'       => implode(',',get_match_list( get_api_names( 'controls' ) )),
+		'behaviors'      => implode(',',get_match_list( get_api_names( 'behaviors' ) )),
 	);
 
 	return $defaults;
@@ -279,7 +264,7 @@ function oiyamap_geocode( $place ) {
 					// получение данных через cURL
 					$content = curl_get_contents( $url ); // используем для получения данных curl
 				} else {
-					return __( 'To show the map cURL must be enabled.', 'oiyamaps' );
+					return __( 'To show the map cURL must be enabled.', 'oi-yamaps' );
 				}
 			}
 		}
@@ -402,7 +387,7 @@ function array_cut_list( $atts ) {
 }
 
 /**
- * Perform controls list for JavaScript API
+ * Perform options list for JavaScript API
  *
  * @param $user_list
  *
@@ -527,7 +512,7 @@ function showyamap( $atts, $content = null ) {
 	$vars['placemarks'] = array();
 
 	if ( empty( $atts['button_caption'] ) ) {
-		$atts['button_caption'] = __( 'Показать карту', 'oiyamaps' );
+		$atts['button_caption'] = __( 'Show the map', 'oi-yamaps' );
 	}
 
 	$map_options = array();
@@ -591,10 +576,10 @@ function showyamap( $atts, $content = null ) {
 
 			// get longitude from post meta
 			$atts['longitude'] = get_post_meta( get_the_ID(), 'longitude', true );
-			
+
 			// if we have coordinates...
 			if ( $atts['latitude'] && $atts['longitude'] ) {
-				
+
 				// split them
 				$atts['coordinates'] = $atts['latitude'] . ',' . $atts['longitude'];
 			} else {
@@ -642,12 +627,12 @@ function showyamap( $atts, $content = null ) {
 
 			$vars['content'] .= $content[ $i ];
 		}
-		
+
 		// make shortcode string
 
 		// shortcode ended
 		if ( $content[ $i ] == ']' ) {
-			
+
 			// set flag
 			$atts['record'] = false;
 
@@ -683,7 +668,7 @@ function showyamap( $atts, $content = null ) {
 		}
 
 		if ( ! empty( $atts['author_link'] ) && $atts['author_link'] == 1 ) {
-			$atts['author_link'] = '<a class="oi_yamaps_author_link" target="_blank" href="https://oiplug.com/">' . __( 'OiYM', 'oi_ya_maps' ) . '</a>';
+			$atts['author_link'] = '<a class="oi_yamaps_author_link" target="_blank" href="https://oiplug.com/">' . __( 'OiYM', 'oi-yamaps' ) . '</a>';
 		}
 		if ( ! empty( $atts['show_by_click'] ) && $atts['show_by_click'] == 1 ) {
 			$atts['display'] = 'display: none;';
@@ -804,58 +789,71 @@ function placemark_code( $atts ) {
 		'iconrect'    => '',
 	), $atts );
 
-	//if(!empty(trim($atts[''])))
-	// if content for placemark given, make placemark stretch
-	if ( ! empty( $atts['iconcontent'] ) ) {
+	foreach ( $atts as $key => $value ) {
+		if ( ! empty( trim( $atts[ $key ] ) ) ) {
 
-		// remove icon name with 2.1 API name
-		$atts['placemark'] = str_replace( 'twirl', 'islands', $atts['placemark'] );
-		$atts['placemark'] = str_replace( 'Dot', '', $atts['placemark'] );
-		$atts['placemark'] = str_replace( 'Icon', 'StretchyIcon', $atts['placemark'] );
+			switch ( $key ) {
+				case 'iconcontent':
+					$atts['iconcontent'] = 'iconContent: "' . $atts['iconcontent'] . '",';
+					// if content for placemark given, make placemark stretch
+
+					if ( ! empty( trim( $atts['placemark'] ) ) ) {
+
+						// remove icon name with 2.1 API name
+						$atts['placemark'] = str_replace( 'twirl', 'islands', $atts['placemark'] );
+						$atts['placemark'] = str_replace( 'Dot', '', $atts['placemark'] );
+						$atts['placemark'] = str_replace( 'Icon', 'StretchyIcon', $atts['placemark'] );
+					}
+					break;
+
+				case 'iconcaption':
+					$atts['iconcaption'] = 'iconCaption: "' . $atts['iconcaption'] . '",';
+					break;
+
+				case 'header':
+					$atts['header'] = 'balloonContentHeader: "' . $atts['header'] . '",';
+					break;
+				case 'body':
+					$atts['body'] = 'balloonContentBody: "' . $atts['body'] . '",';
+					break;
+				case 'footer':
+					$atts['footer'] = 'balloonContentFooter: "' . $atts['footer'] . '",';
+					break;
+
+
+				case 'hint':
+					$atts['hint'] = 'hintContent: "' . $atts['hint'] . '"';
+					break;
+
+				case 'iconimage':
+					$atts['iconimage'] = 'iconImageHref: "' . $atts['iconimage'] . '", ';
+					break;
+				case 'iconsize':
+					$atts['iconsize'] = 'iconImageSize: ' . oi_ya_map_brackets( $atts['iconsize'] ) . ', ';
+					break;
+				case 'iconoffset':
+					$atts['iconoffset'] = 'iconImageOffset: ' . oi_ya_map_brackets( $atts['iconoffset'] ) . ' ';
+					break;
+				case 'iconrect':
+					$atts['iconrect'] = 'iconImageClipRect: ' . oi_ya_map_brackets( $atts['iconrect'] ) . ' ';
+					break;
+				case 'placemark':
+					if ( ! $atts['iconimage'] ) {
+						$atts['placemark'] = 'preset: "' . $atts['placemark'] . '"';
+					} else {
+						$atts['placemark'] = '';
+					}
+					break;
+			}
+		}
 	}
 
-	if ( $atts['iconcontent'] ) {
-		$atts['iconcontent'] = 'iconContent: "' . $atts['iconcontent'] . '",';
-	}
-	if ( $atts['iconcaption'] ) {
-		$atts['iconcaption'] = 'iconCaption: "' . $atts['iconcaption'] . '",';
-	}
-	if ( $atts['header'] ) {
-		$atts['header'] = 'balloonContentHeader: "' . $atts['header'] . '",';
-	}
-	if ( $atts['body'] ) {
-		$atts['body'] = 'balloonContentBody: "' . $atts['body'] . '",';
-	}
-	if ( $atts['footer'] ) {
-		$atts['footer'] = 'balloonContentFooter: "' . $atts['footer'] . '",';
-	}
-
-	$content_tags = array('header','body','footer',);
-	foreach ($content_tags as $tag){
-		$atts[$tag] = str_replace(array('{','}',),array('<','>',),$atts[$tag]);
-	}
-
-
-	if ( $atts['hint'] ) {
-		$atts['hint'] = 'hintContent: "' . $atts['hint'] . '"';
-	}
-
-	if ( $atts['iconimage'] ) {
-		$atts['iconimage'] = 'iconImageHref: "' . $atts['iconimage'] . '", ';
-	}
-	if ( $atts['iconsize'] ) {
-		$atts['iconsize'] = 'iconImageSize: ' . oi_ya_map_brackets( $atts['iconsize'] ) . ', ';
-	}
-	if ( $atts['iconoffset'] ) {
-		$atts['iconoffset'] = 'iconImageOffset: ' . oi_ya_map_brackets( $atts['iconoffset'] ) . ' ';
-	}
-	if ( $atts['iconrect'] ) {
-		$atts['iconrect'] = 'iconImageClipRect: ' . oi_ya_map_brackets( $atts['iconrect'] ) . ' ';
-	}
-	if ( ! empty( $atts['placemark'] ) && ! $atts['iconimage'] ) {
-		$atts['placemark'] = 'preset: "' . $atts['placemark'] . '"';
-	} else {
-		$atts['placemark'] = '';
+	// replace braces with triangular brackets
+	$content_tags = array( 'header', 'body', 'footer', );
+	foreach ( $content_tags as $tag ) {
+		if ( ! empty( trim( $atts[ $tag ] ) )) {
+			$atts[ $tag ] = str_replace( array( '{', '}', ), array( '<', '>', ), $atts[ $tag ] );
+		}
 	}
 
 	$output = '

@@ -19,10 +19,10 @@ function oiym_admin_notice()
 ?>
 	<div class="updated" style="position: relative;">
 		<p>
-			<?php printf(__('Check out the <a href="%1$s">option page</a> of Oi Yandex.Maps for WordPress plugin.','oiyamaps'), 'options-general.php?page=oiym-setting-admin'); ?>
+			<?php printf(__('Check out the <a href="%1$s">option page</a> of Oi Yandex.Maps for WordPress plugin.','oi-yamaps'), 'options-general.php?page=oiym-setting-admin'); ?>
 		</p>
 		<a href="<?php print oi_yamaps_same_page( 'oiym_nag_ignore=0' ); ?>" class="notice-dismiss">
-			<span class="screen-reader-text"><?php _e( 'Hide Notice', 'oiyamaps' ); ?></span>
+			<span class="screen-reader-text"><?php _e( 'Hide Notice', 'oi-yamaps' ); ?></span>
 		</a>
 	</div>
 <?php
