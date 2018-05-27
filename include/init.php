@@ -2,11 +2,11 @@
 /**
  *
  */
+namespace oiyamaps;
 
 define( 'OIYM_PATH', plugin_dir_path( __FILE__ ));
 define( 'OIYM_PREFIX', 'oiym_');
-require_once( OIYM_PATH . 'options.php' );
-require_once( OIYM_PATH . 'thickbox.php' );
+
 
 /* Display a notice that can be dismissed */
 function oiym_admin_notice()
@@ -28,7 +28,7 @@ function oiym_admin_notice()
 <?php
 	}
 }
-add_action('admin_notices', 'oiym_admin_notice');
+add_action('admin_notices', __NAMESPACE__.'\oiym_admin_notice');
 
 function oiym_nag_ignore()
 {
@@ -40,4 +40,6 @@ function oiym_nag_ignore()
 		add_user_meta($user_id, 'oiym_ignore_notice', 'true', true);
 	}
 }
-add_action('admin_init', 'oiym_nag_ignore');
+add_action('admin_init', __NAMESPACE__.'\oiym_nag_ignore');
+
+// eof
