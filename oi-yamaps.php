@@ -12,7 +12,7 @@ Author URI: https://oiplug.com/members/isaenkoalexei
 namespace oiyamaps;
 
 /**
- * Function returns path to the current plugin
+ * Function returns path to the current plugin: `/htdocs/wp-content/plugins/oi-frontend/`
  *
  * @return string
  */
@@ -30,7 +30,7 @@ function plugin_url() {
 }
 
 /**
- * Function returns name of current plugin directory
+ * Function returns name of current plugin directory: `oi-frontend`
  *
  * @return string
  */
@@ -59,7 +59,7 @@ add_action( 'init', __NAMESPACE__ . '\oi_yamaps' );
 
 
 // do something on plugin activation
-register_activation_hook( __FILE__, 'oi_yamaps_activation' );
+register_activation_hook( 'oi-yamaps.php', 'oi_yamaps_activation' );
 
 /**
  * List of some names of API gists
