@@ -30,7 +30,7 @@ Use simple twirl icons "twirl#nightIcon" or twirl icons with dot "twirl#nightDot
 https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Screenshots
-
+ 
 1. Shortcode in admin panel: 
 ![alt text](screenshot-1.png)
 2. Map on a front page: 
@@ -39,9 +39,14 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 ![alt text](screenshot-3.png) 
 4. Visual shortcode editor: 
 ![alt text](screenshot-4.png) 
+5. Visual shortcode editor: 
+![alt text](screenshot-5.png) 
 
 ## Changelog
 
+### 3.0
+* new: design;
+* refactoring;
 ### 2.50
 * new: address coordinates caching added;
 * fix: refactoring coordinates getting function;
@@ -99,7 +104,7 @@ Requires at least: 3.2
 
 Tested up to: 4.8.1
 
-Stable tag: 2.51
+Stable tag: 3.0
 
 ## License
 This project is licensed under the <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2 or later</a> License - see the LICENSE.md file for details
