@@ -13,7 +13,7 @@ API loads not on every page, but only when it's needed!
 
 ## Installation
 
-1. Upload `oi-ya-maps` folder to the `/wp-content/plugins/` directory.
+1. Upload `oi-yamaps` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 ## Frequently Asked Questions
@@ -24,7 +24,7 @@ Just add the "iconcontent" attribute [showyamap address="Moscow, Birulevskaya st
 
 ### How can I change Stretchy Icon color?
 
-Use simple twirl icons "twirl#nightIcon" or twirl icons with dot "twirl#nightDotIcon". If you use "iconcontent" then icon automaticaly turns to stretchy.
+Use simple islands icons "islands#nightIcon" or islands icons with dot "islands#nightDotIcon". If you use "iconcontent" then icon automaticaly turns to stretchy.
 
 ### Russian description
 https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
@@ -35,12 +35,10 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 ![alt text](screenshot-1.png)
 2. Map on a front page: 
 ![alt text](screenshot-2.png) 
-3. Shortcode button: 
+3. Placemark form: 
 ![alt text](screenshot-3.png) 
-4. Visual shortcode editor: 
-![alt text](screenshot-4.png) 
-5. Visual shortcode editor: 
-![alt text](screenshot-5.png) 
+4. Map form: 
+![alt text](screenshot-4.png)
 
 ## Changelog
 
