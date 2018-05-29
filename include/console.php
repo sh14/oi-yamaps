@@ -308,7 +308,7 @@ function get_edit_form() {
  * Add button to media_buttons list
  */
 function get_modal() {
-	$title = __( "Yandex Map", "oiyamaps" );
+	$title = __( 'Oi Yandex.Maps', 'oi-yamaps' );
 	$out   = '<button type="button" class="js-modal_show_oiyamaps button" title="' . $title . '">' . $title . '</button>';
 
 	echo $out;

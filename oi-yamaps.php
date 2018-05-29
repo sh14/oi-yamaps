@@ -6,13 +6,15 @@ Description: The plugin allows you to use Yandex.Maps on your site pages and put
 Author: Alexei Isaenko
 Version: 3.1.2
 Author URI: https://oiplug.com/members/isaenkoalexei
+Text Domain: oi-yamaps
+Domain Path: /language
 */
 
 
 namespace oiyamaps;
 
 /**
- * Function returns path to the current plugin: `/htdocs/wp-content/plugins/oi-frontend/`
+ * Function returns path to the current plugin
  *
  * @return string
  */
@@ -30,7 +32,7 @@ function plugin_url() {
 }
 
 /**
- * Function returns name of current plugin directory: `oi-frontend`
+ * Function returns name of current plugin directory
  *
  * @return string
  */
