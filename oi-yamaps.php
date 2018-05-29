@@ -60,7 +60,7 @@ function activation() {
 		update_option( prefix() . 'options', oi_yamaps_defaults() );
 	}
 
-	deactivate_plugins( array( '/oi-yamaps/oi-ya-maps.php', ) );
+	//deactivate_plugins( array( '/oi-yamaps/oi-ya-maps.php', ) );
 }
 
 register_activation_hook( __FILE__, __NAMESPACE__ . '\activation' );

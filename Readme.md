@@ -18,6 +18,10 @@ API loads not on every page, but only when it's needed!
 
 ## Frequently Asked Questions
 
+### I have problems with activation
+
+If you see something like this 'Plugin has not correct header', just reactivate the plugin. This issue comes because of renaming file to correct naming.
+
 ### How can I add Stretchy Icons?
 
 Just add the "iconcontent" attribute [showyamap address="Moscow, Birulevskaya st., 1" iconcontent="Content"]
