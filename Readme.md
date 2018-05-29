@@ -42,7 +42,7 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Changelog
 
-### 3.0
+### 3.01
 * new: design;
 * refactoring;
 ### 2.50

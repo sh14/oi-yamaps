@@ -4,7 +4,7 @@ Donate link: https://money.yandex.ru/topup/card/carddetails.xml?receiver=4100111
 Tags: coordinates, maps, geolocation, location, placemark, yandex
 Requires at least: 3.2
 Tested up to: 4.9.6
-Stable tag: 3.0
+Stable tag: 3.01
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html 
 
@@ -47,7 +47,7 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 == Changelog ==
 
-= 3.0 =
+= 3.01 =
 * new: design;
 * refactoring;
 = 2.50 =
