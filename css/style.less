@@ -1,0 +1,485 @@
+@color_primary: #fd4;
+@color_primary_dark: #fa4;
+@color_dark: #000;
+@color_middle: #eee;
+@color_light: #fff;
+
+.oiyamaps {
+
+	div {
+		box-sizing: border-box;
+	}
+
+	&-button {
+		box-sizing: border-box;
+		padding: 10px;
+		text-align: center;
+		border: 1px solid #ccc;
+		background: @color_light;
+		text-transform: uppercase;
+		cursor: pointer;
+		margin: 0;
+
+		&:hover, &:focus, &.active:hover, &.active:focus {
+			background: @color_dark;
+			color: @color_middle;
+			border-color: @color_dark;
+			outline: none;
+		}
+
+		&_primary {
+			border-color: @color_primary;
+			background: @color_primary;
+			width: 100%;
+		}
+		&_black {
+			border-color: @color_primary_dark;
+			background: @color_dark;
+			color: @color_middle;
+			width: 100%;
+
+			&:hover, &:focus, &.active:hover, &.active:focus {
+				background: @color_primary;
+				color: @color_dark;
+			}
+		}
+		&_block {
+			width: 100%;
+		}
+
+	}
+
+	&-modal {
+		display: none;
+
+		&__backdrop {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			min-height: 360px;
+			background: @color_light;
+			opacity: .7;
+			z-index: 159900;
+		}
+		&__container {
+			@width: 500px;
+
+			box-sizing: border-box;
+			position: fixed;
+			width: @width;
+			top: 30px;
+			left: 50%;
+			margin-left: -@width/2;
+			right: 30px;
+			bottom: 30px;
+			z-index: 160000;
+			background: @color_light;
+			padding: 30px;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.2);
+		}
+
+		&__content {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			overflow: auto;
+			min-height: 300px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, .7);
+			background: #fcfcfc;
+		}
+
+		&__close {
+			position: absolute;
+			top: 0;
+			right: 0;
+			cursor: pointer;
+			border: none;
+			background: transparent;
+			padding: 0;
+			margin: 0;
+
+			&:after {
+				content: '✕';
+				display: block;
+				font-size: 16px;
+				line-height: 1;
+				padding: 7px 9px;
+				color: @color_dark;
+			}
+			&:hover:after, &:focus:after, &:active:after {
+				color: @color_primary;
+				outline: none;
+			}
+		}
+
+		&.active {
+			display: block;
+		}
+	}
+
+	&-block {
+		@options_width: 100%;
+		@display_map: none;
+
+		display: block;
+		position: absolute;
+		top: 30px;
+		bottom: 30px;
+		left: 0;
+		right: 0;
+		box-sizing: border-box;
+
+		&:before, &:after {
+			display: block;
+			content: '';
+			clear: both;
+		}
+		&__options {
+			display: block;
+			float: left;
+			width: @options_width;
+			padding: 0 30px;
+			position: relative;
+			overflow-y: scroll;
+			height: 100%;
+			box-sizing: border-box;
+			padding-top: 45px;
+		}
+
+		&__tabs {
+			margin: 0;
+			list-style: none;
+			position: absolute;
+			background: @color_light;
+			left: 0;
+			right: 0;
+			top: 0;
+			width: @options_width;
+			padding: 0 30px;
+			box-sizing: border-box;
+			z-index: 9;
+
+			&:before, &:after {
+				display: block;
+				content: '';
+				clear: both;
+			}
+		}
+
+		&__tab {
+			float: left;
+			width: 50%;
+			box-sizing: border-box;
+			padding: 10px;
+			text-align: center;
+			border-style: solid;
+			border-color: #ccc;
+			border-width: 1px 1px 1px 0;
+			background: @color_middle;
+			text-transform: uppercase;
+			cursor: pointer;
+			margin: 0;
+
+			&:first-child {
+				border-left-width: 1px;
+			}
+		}
+		&__tab.active {
+			background: @color_primary;
+		}
+		&__tab:hover, &__tab:focus, &__tab.active:hover, &__tab.active:focus {
+			background: @color_dark;
+			color: @color_middle;
+			border-color: @color_dark;
+		}
+
+		&__map {
+			display: @display_map;
+			float: left;
+			width: 70%;
+			height: 100%;
+			padding: 0 30px;
+			box-sizing: border-box;
+		}
+		&__add {
+			margin-bottom: 5px;
+		}
+		&__close {
+		}
+	}
+
+	&-map {
+		background: @color_middle;
+		height: 100%;
+	}
+
+	&-form {
+		&__group {
+			position: relative;
+		}
+		&__slider {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+
+			&-item {
+				display: none;
+				margin: 0 0 5px 0;
+			}
+			&-item.active {
+				display: block;
+			}
+		}
+		&__input {
+			display: block;
+			position: relative;
+		}
+		&__label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+			/*position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;*/
+		}
+		&__label-checkbox {
+			user-select: none;
+			margin: 0 0 5px 0;
+			display: inline-block;
+
+			&:before, &:after {
+				display: block;
+				content: '';
+				clear: both;
+			}
+		}
+		&__label-checkbox-bullet {
+			position: relative;
+			float: left;
+			top: .2em;
+			margin-right: 10px;
+
+			&:before {
+				content: ' ';
+				display: inline-block;
+				width: 1em;
+				height: 1em;
+				border: 1px solid #ccc;
+				border-radius: 2px;
+				box-sizing: border-box;
+			}
+			&:after {
+				content: ' ';
+				display: block;
+				width: 1.2em;
+				height: 1.2em;
+				background: url(../images/check.svg) 0 0 ~'/' contain no-repeat;
+				position: absolute;
+				opacity: 0;
+				top: -.5em;
+				left: .15em;
+				transition: all 200ms ease-out;
+			}
+		}
+		&__control:checked + &__label-checkbox-bullet {
+			&:before {
+				border-color: @color_primary;
+				border-width: 2px;
+			}
+			&:after {
+				opacity: 1;
+				top: -.3em;
+			}
+		}
+
+		input&__control {
+
+			&[type=text], &[type=number] {
+				display: block;
+				box-sizing: border-box;
+				width: 100%;
+				padding: 4px 6px;
+				font-size: 13px;
+				line-height: 18px;
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				background: @color_light;
+				border: 1px solid rgba(0, 0, 0, .2);
+				outline: none;
+				-webkit-appearance: none;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+				box-shadow: none;
+				margin: 0 0 5px 0;
+
+				&:focus {
+					border-color: @color_primary;
+					outline: 2px solid @color_primary;
+					box-shadow: none;
+				}
+			}
+
+			&[type=checkbox] {
+				display: none;
+			}
+		}
+
+		&__hint {
+			line-height: 1.4;
+			margin: 0 0 10px 0;
+			color: #999;
+			font-size: 12px;
+			font-weight: 300;
+
+			&:empty {
+				display: none;
+			}
+		}
+		&__multiselect {
+			margin: 0 0 10px 0;
+		}
+		&__cancel {
+			margin-top: 5px;
+		}
+	}
+
+	&__shortcode {
+		@size: 10px;
+
+		user-select: none;
+
+		&-item {
+			display: table;
+			width: 100%;
+			box-sizing: border-box;
+			padding: 0;
+			text-align: left;
+			border-style: solid;
+			border-color: @color_primary;
+			border-width: 2px;
+			text-transform: uppercase;
+			cursor: default;
+			margin: 0 0 @size/2 0;
+			line-height: 1;
+			font-size: @size;
+		}
+
+		&-address {
+			display: table-cell;
+			vertical-align: middle;
+			line-height: 1.2;
+			padding: @size/2 0 @size/2 @size;
+		}
+
+		&-buttons {
+			display: table-cell;
+			position: relative;
+			width: 1px;
+			white-space: nowrap;
+			line-height: 1;
+			vertical-align: middle;
+		}
+		&-button {
+			font-size: @size*2;
+			padding: @size;
+			display: inline-block;
+			opacity: .2;
+			cursor: pointer;
+
+			&:hover, &:focus {
+				opacity: 1;
+			}
+		}
+
+	}
+
+	&-icons {
+		width: 550px;
+		height: 480px;
+		overflow-y: scroll;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .2), 0 0 3px rgba(0, 0, 0, .1);
+
+		&__list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			&:before, &:after {
+				display: block;
+				content: '';
+				clear: both;
+			}
+		}
+
+		&__item {
+			float: left;
+			width: 110px;
+			height: 110px;
+			background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) 50% 50% no-repeat;
+			border: 10px solid transparent;
+			border-radius: 50%;
+			box-sizing: border-box;
+			cursor: pointer;
+
+			&:hover, &:focus, &.active {
+				border-color: @color_primary;
+			}
+		}
+	}
+
+	&-hidden {
+		display: none;
+	}
+
+	&-error {
+		color: red;
+	}
+
+	&-preloader {
+		&:after {
+			position: absolute;
+			box-sizing: border-box;
+			content: '';
+			top: 50%;
+			right: .5em;
+			margin-top: -0.7em;
+			width: 1.4em;
+			height: 1.4em;
+			display: inline-block;
+			padding: 0;
+			border-radius: 100%;
+			border: 2px solid;
+			border-top-color: rgba(0, 0, 0, 0.65);
+			border-bottom-color: rgba(0, 0, 0, 0.15);
+			border-left-color: rgba(0, 0, 0, 0.65);
+			border-right-color: rgba(0, 0, 0, 0.15);
+			-webkit-animation: oiyamaps__preloader 0.8s linear infinite;
+			animation: oiyamaps__preloader 0.8s linear infinite;
+		}
+	}
+
+	@keyframes oiyamaps__preloader {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@-webkit-keyframes oiyamaps__preloader {
+		from {
+			-webkit-transform: rotate(0deg);
+		}
+		to {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+
+}
