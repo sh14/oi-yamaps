@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Oi Yandex.Maps for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-27 19:37+0000\n"
-"PO-Revision-Date: 2018-05-27 19:40+0000\n"
+"PO-Revision-Date: 2018-05-29 07:56+0000\n"
 "Last-Translator: admin <sh-v@ya.ru>\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -183,7 +183,7 @@ msgstr "Это должны быть координаты, наподобие 55
 
 #: oi-yamaps.php:136
 msgid "Left mouse button magnifier"
-msgstr "Масштаб правой клавишей мыши"
+msgstr "Масштаб левой клавишей мыши"
 
 #: templates/modal-box.php:8
 msgid "Map"
