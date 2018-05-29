@@ -3,7 +3,7 @@ Contributors: sh14
 Donate link: https://money.yandex.ru/topup/card/carddetails.xml?receiver=41001112308777&skr_sum=350
 Tags: coordinates, maps, geolocation, location, placemark, yandex
 Requires at least: 3.2
-Tested up to: 4.8.1
+Tested up to: 4.9.6
 Stable tag: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html 
