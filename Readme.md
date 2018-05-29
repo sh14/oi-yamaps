@@ -42,49 +42,50 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Changelog
 
-### 3.01
+###  3.1.1 (29.05.2018) 
 * new: design;
 * refactoring;
-### 2.50
+###  2.50 (18.03.2016) 
 * new: address coordinates caching added;
 * fix: refactoring coordinates getting function;
 * fix: only one field left for address or coordinates;
-### 2.42
+###  2.42 (21.10.2015) 
 * fix: coordinates print deleted;
-### 2.41 =
+###  2.41 (21.10.2015) 
 * fix: map center normalized;
-### 2.4
+###  2.4 (21.10.2015) 
 * fix notices;
 * form view;
 * shortcode making;
 * plugin url;
-### 2.3
+###  2.3 (08.12.2014) 
 * fix: showmap coordinates missing;
 * fix: fixed error when showmap doesn't contain coordinates;
 * new: now you can turn off map controls
 * new: added custom placemark image
 * new: map center depends on placemarks
-### 2.2
+###  2.2 (16.09.2014) 
 * fix: fixed error when coordinates used
 * fix: fixed error whith map center
 * new: added shortcode button
 * new: localization: russian language added
-### 2.1
+###  2.1 (22.07.2014) 
 * fix: fix html in placemark
 * new: center parametr added
 * new: curl enable check
-### 2.0
+###  2.0 (21.07.2014) 
 * fix: Some fixes.
 * new: Option page added.
 * new: Language support added.
 * new: Multi Placemarks support added.
-### 1.2
+###  1.2 (20.05.2014) 
 * fix: Placemark ID numbers fixed
 * new: iconcontent attribute added - Stretchy Icons support
-### 1.1
+###  1.1 (02.05.2014) 
 * fix: Maps ID numbers fixed
-### 1.0
+###  1.0 (25.04.2014) 
 * Initial release
+
 
 ## Upgrade Notice
 

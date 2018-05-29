@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Oi Yandex.Maps for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-27 19:37+0000\n"
+"POT-Creation-Date: 2018-05-29 12:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,24 +14,150 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: include/options.php:26
-msgid "16 by default"
+#: oi-yamaps.php:91
+msgid "Fullscreen control button"
 msgstr ""
 
-#: include/console.php:140
-msgid "Add placemark"
+#: oi-yamaps.php:92
+msgid "Stretches map to fullscreen mode."
 msgstr ""
 
-#: templates/modal-box.php:23
-msgid "Add shortcode"
+#: oi-yamaps.php:96
+msgid "Geolocation control button"
+msgstr ""
+
+#: oi-yamaps.php:97
+msgid "Gives an ability to get user's position"
+msgstr ""
+
+#: oi-yamaps.php:101
+msgid "Ruler control button"
+msgstr ""
+
+#: oi-yamaps.php:102
+msgid "Shows the map scale."
+msgstr ""
+
+#: oi-yamaps.php:106
+msgid "Route editor control button"
+msgstr ""
+
+#: oi-yamaps.php:107
+msgid "Gives an ability to build a route."
+msgstr ""
+
+#: oi-yamaps.php:111
+msgid "Type select controler"
+msgstr ""
+
+#: oi-yamaps.php:112
+msgid "Gives an ability to choose map mode."
+msgstr ""
+
+#: oi-yamaps.php:116
+msgid "Zoom control button"
+msgstr ""
+
+#: oi-yamaps.php:117
+msgid "Gives an ability to change map scale."
+msgstr ""
+
+#: oi-yamaps.php:121
+msgid "Search field"
+msgstr ""
+
+#: oi-yamaps.php:122
+msgid "Gives an ability to search for locations."
+msgstr ""
+
+#: oi-yamaps.php:126
+msgid "Traffic control button"
+msgstr ""
+
+#: oi-yamaps.php:127
+msgid "Gives an ability to show or hide traffic lines."
+msgstr ""
+
+#: oi-yamaps.php:133
+msgid "Double Click Zoom"
+msgstr ""
+
+#: oi-yamaps.php:134
+msgid "Gives an ability to zoom in by left mouse button and zoom out by right."
+msgstr ""
+
+#: oi-yamaps.php:138
+msgid "Map draging"
+msgstr ""
+
+#: oi-yamaps.php:139
+msgid "Gives an ability to drag the map."
+msgstr ""
+
+#: oi-yamaps.php:143
+msgid "Multitouch"
+msgstr ""
+
+#: oi-yamaps.php:144
+msgid "Gives an ability to change map scale with multitouch."
+msgstr ""
+
+#: oi-yamaps.php:148
+msgid "Left mouse button magnifier"
+msgstr ""
+
+#: oi-yamaps.php:149
+msgid ""
+"Gives an ability to change map scale by choose zooming area with left mouse "
+"button."
+msgstr ""
+
+#: oi-yamaps.php:153
+msgid "Right mouse button magnifier"
+msgstr ""
+
+#: oi-yamaps.php:154
+msgid ""
+"Gives an ability to change map scale by choose zooming area with right mouse "
+"button."
+msgstr ""
+
+#: oi-yamaps.php:158
+msgid "Scroll zoom"
+msgstr ""
+
+#: oi-yamaps.php:159
+msgid "Gives an ability to change map scale by scrolling."
+msgstr ""
+
+#: oi-yamaps.php:191 oi-yamaps.php:541
+msgid "Show the map"
+msgstr ""
+
+#: oi-yamaps.php:290
+msgid "To show the map cURL must be enabled."
+msgstr ""
+
+#: oi-yamaps.php:697
+msgid "OiYM"
+msgstr ""
+
+#: include/console.php:25
+msgid "Field cannot be empty"
 msgstr ""
 
 #: include/console.php:74 include/console.php:75
 msgid "Address or coordinates"
 msgstr ""
 
-#. Author of the plugin
-msgid "Alexei Isaenko"
+#: include/console.php:76
+msgid ""
+"Type an address or coordinates. Address example: Moscow; Coordinates example:"
+" 55.755814,37.617635 "
+msgstr ""
+
+#: include/console.php:84 include/console.php:85
+msgid "Baloon header"
 msgstr ""
 
 #: include/console.php:91 include/console.php:92
@@ -42,16 +168,57 @@ msgstr ""
 msgid "Baloon footer"
 msgstr ""
 
-#: include/console.php:84 include/console.php:85
-msgid "Baloon header"
+#: include/console.php:105 include/console.php:106
+msgid "Placemark hint"
+msgstr ""
+
+#: include/console.php:112 include/console.php:113 include/console.php:119
+#: include/console.php:120
+msgid "Plcamark label"
+msgstr ""
+
+#: include/console.php:126 include/console.php:127
+msgid "Placemark type"
+msgstr ""
+
+#: include/console.php:140
+msgid "Add placemark"
+msgstr ""
+
+#: include/console.php:146
+msgid "Cancel"
+msgstr ""
+
+#: include/console.php:152 include/console.php:153
+msgid "Map center"
+msgstr ""
+
+#: include/console.php:162
+msgid "It should be a coordinates, like 55.754736,37.620875"
 msgstr ""
 
 #: include/console.php:164
 msgid "By default center = coordinates"
 msgstr ""
 
-#: include/console.php:146
-msgid "Cancel"
+#: include/console.php:170 include/console.php:171 include/options.php:8
+msgid "Map height"
+msgstr ""
+
+#: include/console.php:188 include/console.php:189 include/options.php:22
+msgid "Map zoom"
+msgstr ""
+
+#: include/console.php:194
+msgid "Map controls"
+msgstr ""
+
+#: include/console.php:208
+msgid "Map options"
+msgstr ""
+
+#: include/console.php:251
+msgid "Default: "
 msgstr ""
 
 #: include/init.php:22
@@ -61,261 +228,28 @@ msgid ""
 "WordPress plugin."
 msgstr ""
 
-#: templates/modal-box.php:30
-msgid "Close"
-msgstr ""
-
-#: include/options.php:271
-msgid "Default parameters"
-msgstr ""
-
-#: include/options.php:29
-msgid "Default placemark"
-msgstr ""
-
-#: include/console.php:251
-msgid "Default: "
-msgstr ""
-
-#: include/options.php:321
-msgid "Documentation"
-msgstr ""
-
-#: oi-yamaps.php:121
-msgid "Double Click Zoom"
-msgstr ""
-
-#: include/console.php:25
-msgid "Field cannot be empty"
-msgstr ""
-
-#: oi-yamaps.php:79
-msgid "Fullscreen control button"
-msgstr ""
-
-#: oi-yamaps.php:84
-msgid "Geolocation control button"
-msgstr ""
-
-#: oi-yamaps.php:95
-msgid "Gives an ability to build a route."
-msgstr ""
-
-#: oi-yamaps.php:137
-msgid ""
-"Gives an ability to change map scale by choose zooming area with left mouse "
-"button."
-msgstr ""
-
-#: oi-yamaps.php:142
-msgid ""
-"Gives an ability to change map scale by choose zooming area with right mouse "
-"button."
-msgstr ""
-
-#: oi-yamaps.php:147
-msgid "Gives an ability to change map scale by scrolling."
-msgstr ""
-
-#: oi-yamaps.php:132
-msgid "Gives an ability to change map scale with multitouch."
-msgstr ""
-
-#: oi-yamaps.php:105
-msgid "Gives an ability to change map scale."
-msgstr ""
-
-#: oi-yamaps.php:100
-msgid "Gives an ability to choose map mode."
-msgstr ""
-
-#: oi-yamaps.php:127
-msgid "Gives an ability to drag the map."
-msgstr ""
-
-#: oi-yamaps.php:85
-msgid "Gives an ability to get user's position"
-msgstr ""
-
-#: oi-yamaps.php:110
-msgid "Gives an ability to search for locations."
-msgstr ""
-
-#: oi-yamaps.php:115
-msgid "Gives an ability to show or hide traffic lines."
-msgstr ""
-
-#: oi-yamaps.php:122
-msgid "Gives an ability to zoom in by left mouse button and zoom out by right."
-msgstr ""
-
 #: include/init.php:25
 msgid "Hide Notice"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://oiplug.com/members/isaenkoalexei"
-msgstr ""
-
-#. URI of the plugin
-msgid "https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/"
-msgstr ""
-
-#: include/options.php:233
-msgid "Info"
-msgstr ""
-
-#: include/options.php:40
-msgid "It is just a link to the plugin page in corner of the map."
-msgstr ""
-
-#: include/console.php:162
-msgid "It should be a coordinates, like 55.754736,37.620875"
-msgstr ""
-
-#: oi-yamaps.php:136
-msgid "Left mouse button magnifier"
-msgstr ""
-
-#: templates/modal-box.php:8
-msgid "Map"
-msgstr ""
-
-#: include/console.php:152 include/console.php:153
-msgid "Map center"
-msgstr ""
-
-#: include/console.php:194
-msgid "Map controls"
-msgstr ""
-
-#: include/options.php:229
-msgid "Map defaults"
-msgstr ""
-
-#: oi-yamaps.php:126
-msgid "Map draging"
-msgstr ""
-
-#: include/console.php:170 include/console.php:171 include/options.php:8
-msgid "Map height"
-msgstr ""
-
-#: include/console.php:208
-msgid "Map options"
+#: include/options.php:12
+msgid "Use px or %. 400px by default"
 msgstr ""
 
 #: include/options.php:15
 msgid "Map width"
 msgstr ""
 
-#: include/console.php:188 include/console.php:189 include/options.php:22
-msgid "Map zoom"
-msgstr ""
-
-#: oi-yamaps.php:131
-msgid "Multitouch"
-msgstr ""
-
-#: include/options.php:160
-msgid "Oi Yandex.Maps"
-msgstr ""
-
-#. Name of the plugin
-msgid "Oi Yandex.Maps for WordPress"
-msgstr ""
-
-#: include/options.php:159 include/options.php:176
-msgid "Oi Yandex.Maps Settings"
-msgstr ""
-
-#: oi-yamaps.php:671
-msgid "OiYM"
-msgstr ""
-
-#: include/console.php:105 include/console.php:106
-msgid "Placemark hint"
-msgstr ""
-
-#: include/console.php:126 include/console.php:127
-msgid "Placemark type"
-msgstr ""
-
-#: templates/modal-box.php:7
-msgid "Placemarks"
-msgstr ""
-
-#: include/console.php:112 include/console.php:113 include/console.php:119
-#: include/console.php:120
-msgid "Plcamark label"
-msgstr ""
-
-#: oi-yamaps.php:141
-msgid "Right mouse button magnifier"
-msgstr ""
-
-#: oi-yamaps.php:94
-msgid "Route editor control button"
-msgstr ""
-
-#: oi-yamaps.php:89
-msgid "Ruler control button"
-msgstr ""
-
-#: oi-yamaps.php:146
-msgid "Scroll zoom"
-msgstr ""
-
-#: oi-yamaps.php:109
-msgid "Search field"
-msgstr ""
-
-#: include/options.php:36
-msgid "Show link to the plugin's page"
-msgstr ""
-
-#: oi-yamaps.php:179 oi-yamaps.php:515
-msgid "Show the map"
-msgstr ""
-
-#: oi-yamaps.php:90
-msgid "Shows the map scale."
-msgstr ""
-
-#: oi-yamaps.php:80
-msgid "Stretches map to fullscreen mode."
-msgstr ""
-
-#. Description of the plugin
-msgid ""
-"The plugin allows you to use Yandex.Maps on your site pages and put the "
-"placemarks on the map. Without an API key."
-msgstr ""
-
-#: oi-yamaps.php:267
-msgid "To show the map cURL must be enabled."
-msgstr ""
-
-#: oi-yamaps.php:114
-msgid "Traffic control button"
-msgstr ""
-
-#: include/console.php:76
-msgid ""
-"Type an address or coordinates. Address example: Moscow; Coordinates example:"
-" 55.755814,37.617635 "
-msgstr ""
-
-#: oi-yamaps.php:99
-msgid "Type select controler"
-msgstr ""
-
 #: include/options.php:19
 msgid "Use px or %. 100% by default"
 msgstr ""
 
-#: include/options.php:12
-msgid "Use px or %. 400px by default"
+#: include/options.php:26
+msgid "16 by default"
+msgstr ""
+
+#: include/options.php:29
+msgid "Default placemark"
 msgstr ""
 
 #: include/options.php:33
@@ -323,6 +257,73 @@ msgstr ""
 msgid "You can use different placemarks. Checkout that page - %s"
 msgstr ""
 
-#: oi-yamaps.php:104
-msgid "Zoom control button"
+#: include/options.php:36
+msgid "Show link to the plugin's page"
+msgstr ""
+
+#: include/options.php:40
+msgid "It is just a link to the plugin page in corner of the map."
+msgstr ""
+
+#: include/options.php:159 include/options.php:176
+msgid "Oi Yandex.Maps Settings"
+msgstr ""
+
+#: include/options.php:160
+msgid "Oi Yandex.Maps"
+msgstr ""
+
+#: include/options.php:229
+msgid "Map defaults"
+msgstr ""
+
+#: include/options.php:233
+msgid "Info"
+msgstr ""
+
+#: include/options.php:271
+msgid "Default parameters"
+msgstr ""
+
+#: include/options.php:321
+msgid "Documentation"
+msgstr ""
+
+#: templates/modal-box.php:7
+msgid "Placemarks"
+msgstr ""
+
+#: templates/modal-box.php:8
+msgid "Map"
+msgstr ""
+
+#: templates/modal-box.php:23
+msgid "Add shortcode"
+msgstr ""
+
+#: templates/modal-box.php:30
+msgid "Close"
+msgstr ""
+
+#. Name of the plugin
+msgid "Oi Yandex.Maps for WordPress"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"The plugin allows you to use Yandex.Maps on your site pages and put the "
+"placemarks on the map. Without an API key. <strong>Don't forget to "
+"reactivate the plugin!</strong>"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Alexei Isaenko"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://oiplug.com/members/isaenkoalexei"
 msgstr ""

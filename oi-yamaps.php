@@ -2,9 +2,9 @@
 /*
 Plugin Name: Oi Yandex.Maps for WordPress
 Plugin URI: https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/
-Description: The plugin allows you to use Yandex.Maps on your site pages and put the placemarks on the map. Without an API key.
+Description: The plugin allows you to use Yandex.Maps on your site pages and put the placemarks on the map. Without an API key. <strong>Don't forget to reactivate the plugin!</strong>
 Author: Alexei Isaenko
-Version: 3.01
+Version: 3.1.1
 Author URI: https://oiplug.com/members/isaenkoalexei
 */
 
@@ -178,7 +178,7 @@ function oi_yamaps_defaults() {
 		'width'          => '100%',
 		'zoom'           => '16',
 		'placemark'      => 'islands#blueDotIcon',
-		'author_link'    => '1',
+		'author_link'    => 1,
 		'show_by_click'  => 0,
 		'address'        => '',
 		'center'         => '',
@@ -527,8 +527,10 @@ function map_options_add( $atts ) {
  */
 function showyamap( $atts, $content = null ) {
 
+	$options = get_option( prefix() . 'options' );
+
 	// get attributes from options
-	$option = wp_parse_args( get_option( prefix() . 'options' ), oi_yamaps_defaults() );
+	$option = wp_parse_args( $options, oi_yamaps_defaults() );
 
 	// get attributes of concrete map
 	$atts = wp_parse_args( $atts, $option );
@@ -693,8 +695,11 @@ function showyamap( $atts, $content = null ) {
 			$atts['center'] = io_ya_map_center( $atts['lat'], $atts['lon'] );
 		}
 
-		if ( ! empty( $atts['author_link'] ) && $atts['author_link'] == 1 ) {
-			$atts['author_link'] = '<a class="oi_yamaps_author_link" target="_blank" href="https://oiplug.com/">' . __( 'OiYM', 'oi-yamaps' ) . '</a>';
+		//echo $options['author_link'];
+		if ( ! empty( $options['author_link'] ) && $options['author_link'] == 1 ) {
+			$atts['author_link'] = $options['author_link'] . '<a class="oi_yamaps_author_link" target="_blank" href="https://oiplug.com/">' . __( 'OiYM', 'oi-yamaps' ) . '</a>';
+		} else {
+			$atts['author_link'] = '';
 		}
 		if ( ! empty( $atts['show_by_click'] ) && $atts['show_by_click'] == 1 ) {
 			$atts['display'] = 'display: none;';
@@ -816,14 +821,14 @@ function placemark_code( $atts ) {
 	), $atts );
 
 	foreach ( $atts as $key => $value ) {
-		if ( ! empty( trim( $atts[ $key ] ) ) ) {
+		if ( ! empty( $atts[ $key ] ) ) {
 
 			switch ( $key ) {
 				case 'iconcontent':
 					$atts['iconcontent'] = 'iconContent: "' . $atts['iconcontent'] . '",';
 					// if content for placemark given, make placemark stretch
 
-					if ( ! empty( trim( $atts['placemark'] ) ) ) {
+					if ( ! empty( $atts['placemark'] ) ) {
 
 						// remove icon name with 2.1 API name
 						$atts['placemark'] = str_replace( 'twirl', 'islands', $atts['placemark'] );
@@ -877,7 +882,7 @@ function placemark_code( $atts ) {
 	// replace braces with triangular brackets
 	$content_tags = array( 'header', 'body', 'footer', );
 	foreach ( $content_tags as $tag ) {
-		if ( ! empty( trim( $atts[ $tag ] ) ) ) {
+		if ( ! empty( $atts[ $tag ] ) ) {
 			$atts[ $tag ] = str_replace( array( '{', '}', ), array( '<', '>', ), $atts[ $tag ] );
 		}
 	}

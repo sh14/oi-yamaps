@@ -349,7 +349,12 @@ class OIYM_SettingsPage {
 
 	public function author_link_callback() {
 		$key = 'author_link';
-		print oiym_psf( array( 'key' => $key, 'value' => esc_attr( $this->options[ $key ] ), ) );
+		if(!empty($this->options[ $key ]) && $this->options[ $key ] !== 0){
+			$value = 1;
+		}else{
+			$value = 0;
+		}
+		print oiym_psf( array( 'key' => $key, 'value' => $value, ) );
 	}
 
 	/* END: EDIT HERE */
