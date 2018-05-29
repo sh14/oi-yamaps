@@ -38,14 +38,14 @@ function plugin_name() {
 	return plugin_basename( plugin_path() );
 }
 
-require_once "include/init.php";
+require_once plugin_path() . '/include/init.php';
 if ( ! function_exists( 'oinput_form' ) ) {
-	require_once 'include/oi-nput.php';
+	require_once plugin_path() . 'include/oi-nput.php';
 }
 if ( function_exists( 'oinput_form' ) ) {
-	require_once "include/templates.php";
-	require_once "include/console.php";
-	require_once "include/options.php";
+	require_once plugin_path() . '/include/templates.php';
+	require_once plugin_path() . '/include/console.php';
+	require_once plugin_path() . '/include/options.php';
 }
 //require_once "include/tinymce/shortcode.php";
 
@@ -182,8 +182,8 @@ function oi_yamaps_defaults() {
 		'iconsize'       => '',
 		'iconoffset'     => '',
 		'iconrect'       => '',
-		'controls'       => implode(',',get_match_list( get_api_names( 'controls' ) )),
-		'behaviors'      => implode(',',get_match_list( get_api_names( 'behaviors' ) )),
+		'controls'       => implode( ',', get_match_list( get_api_names( 'controls' ) ) ),
+		'behaviors'      => implode( ',', get_match_list( get_api_names( 'behaviors' ) ) ),
 	);
 
 	return $defaults;
@@ -851,7 +851,7 @@ function placemark_code( $atts ) {
 	// replace braces with triangular brackets
 	$content_tags = array( 'header', 'body', 'footer', );
 	foreach ( $content_tags as $tag ) {
-		if ( ! empty( trim( $atts[ $tag ] ) )) {
+		if ( ! empty( trim( $atts[ $tag ] ) ) ) {
 			$atts[ $tag ] = str_replace( array( '{', '}', ), array( '<', '>', ), $atts[ $tag ] );
 		}
 	}
