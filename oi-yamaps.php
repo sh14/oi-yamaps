@@ -165,6 +165,18 @@ function get_api_names( $key ) {
 	return $names[ $key ];
 }
 
+function get_default_api_names( $key ) {
+	$names  = get_api_names( $key );
+	$values = array();
+	foreach ( $names as $key => $value ) {
+		if ( $value['default'] == true ) {
+			$values[] = $key;
+		}
+	}
+	$values = implode( ',', $values );
+
+	return $values;
+}
 
 /**
  * Список значений настроек по умолчанию
@@ -194,8 +206,8 @@ function oi_yamaps_defaults() {
 		'iconsize'       => '',
 		'iconoffset'     => '',
 		'iconrect'       => '',
-		'controls'       => implode( ',', get_match_list( get_api_names( 'controls' ) ) ),
-		'behaviors'      => implode( ',', get_match_list( get_api_names( 'behaviors' ) ) ),
+		'controls'       => get_default_api_names( 'controls' ),
+		'behaviors'      => get_default_api_names( 'behaviors' ),
 	);
 
 	return $defaults;

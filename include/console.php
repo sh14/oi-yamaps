@@ -194,11 +194,11 @@ function get_edit_form() {
 				'label'       => __( 'Map controls', 'oi-yamaps' ),
 				'label_class' => 'oiyamaps-form__label',
 				'html'        => '%label%'
-				                 .'<div class="oiyamaps-form__multiselect">'
+				                 . '<div class="oiyamaps-form__multiselect">'
 				                 . multiselect( array(
 						'key'    => 'controls',
 						'class'  => 'oiyamaps-form',
-						'values' => implode( ',', get_match_list( get_api_names( 'controls' ) ) ),
+						'values' => get_default_api_names( 'controls' ),
 					) )
 				                 . '</div>',
 			),
@@ -208,11 +208,11 @@ function get_edit_form() {
 				'label'       => __( 'Map options', 'oi-yamaps' ),
 				'label_class' => 'oiyamaps-form__label',
 				'html'        => '%label%'
-				                 .'<div class="oiyamaps-form__multiselect">'
+				                 . '<div class="oiyamaps-form__multiselect">'
 				                 . multiselect( array(
 						'key'    => 'behaviors',
 						'class'  => 'oiyamaps-form',
-						'values' => implode( ',', get_match_list( get_api_names( 'behaviors' ) ) ),
+						'values' => get_default_api_names( 'behaviors' ),
 					) )
 				                 . '</div>',
 			),
