@@ -46,7 +46,7 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Changelog
 
-###  3.1.1 (29.05.2018) 
+###  3.1.2 (29.05.2018) 
 * new: design;
 * refactoring;
 ###  2.50 (18.03.2016) 

@@ -4,13 +4,15 @@ Donate link: https://money.yandex.ru/topup/card/carddetails.xml?receiver=4100111
 Tags: coordinates, maps, geolocation, location, placemark, yandex
 Requires at least: 3.2
 Tested up to: 4.9.6
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html 
 
 The plugin allows you to use Yandex.Maps on your site pages and put placemarks on the map. Without an API key.
 
 == Description ==
+
+<strong>Don't forget to reactivate the plugin after update to v.3.1.2!</strong>
 
 This plugin uses <a target="_blank" href="http://maps.yandex.com/">Yandex.Map</a> API service to provide maps on your site.
 You can point coordinates or address of some places, and put your map to any page of your site.
@@ -42,7 +44,7 @@ Use simple islands icons "islands#nightIcon" or islands icons with dot "islands#
 = Russian description =
 https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
- == Screenshots == 
+== Screenshots ==
 
 1. Shortcode in admin panel.
 2. Map on a front page.
@@ -51,7 +53,7 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 == Changelog ==
 
-= 3.1.1 (29.05.2018) =
+= 3.1.2 (29.05.2018) =
 * new: design;
 * refactoring;
 = 2.50 (18.03.2016) =
