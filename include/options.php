@@ -113,10 +113,10 @@ function oiym_psf( $atts ) {
 				       $atts['after'] . $atts['hint'];
 				break;
 			case 'text':
-				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']" name="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']" class="regular-text" value="' . $atts['value'] . '" ' . $atts['addon'] . '/>' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . prefix() . 'options[' . $atts['key'] . ']" name="' . prefix() . 'options[' . $atts['key'] . ']" class="regular-text" value="' . $atts['value'] . '" ' . $atts['addon'] . '/>' . $atts['after'] . $atts['hint'];
 				break;
 			case 'hidden':
-				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']" name="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']" value="' . $atts['value'] . '">' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . prefix() . 'options[' . $atts['key'] . ']" name="' . prefix() . 'options[' . $atts['key'] . ']" value="' . $atts['value'] . '">' . $atts['after'] . $atts['hint'];
 				break;
 			case 'checkbox':
 				if ( $atts['value'] == '1' ) {
@@ -124,10 +124,10 @@ function oiym_psf( $atts ) {
 				} else {
 					$checked_flag = '';
 				}
-				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']" name="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']"' . ' value="1"' . $checked_flag . '' . $atts['addon'] . '>' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . prefix() . 'options[' . $atts['key'] . ']" name="' . prefix() . 'options[' . $atts['key'] . ']"' . ' value="1"' . $checked_flag . '' . $atts['addon'] . '>' . $atts['after'] . $atts['hint'];
 				break;
 			case 'textarea':
-				$out = $atts['before'] . '<textarea class="wp-editor-area" id="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']" name="' . OIYM_PREFIX . 'options[' . $atts['key'] . ']" ' . $atts['addon'] . '>' . $atts['value'] . '</textarea>' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<textarea class="wp-editor-area" id="' . prefix() . 'options[' . $atts['key'] . ']" name="' . prefix() . 'options[' . $atts['key'] . ']" ' . $atts['addon'] . '>' . $atts['value'] . '</textarea>' . $atts['after'] . $atts['hint'];
 				break;
 		}
 	}
@@ -169,7 +169,7 @@ class OIYM_SettingsPage {
 	 */
 	public function settings_page() {
 		// Set class property
-		$this->options = ( get_option( OIYM_PREFIX . 'options', oi_yamaps_defaults() ) );
+		$this->options = ( get_option( prefix() . 'options', oi_yamaps_defaults() ) );
 		?>
 
 		<div class="wrap">
@@ -177,7 +177,7 @@ class OIYM_SettingsPage {
 			<form method="post" action="options.php">
 				<?php
 				// This prints out all hidden setting fields
-				settings_fields( OIYM_PREFIX . 'option_group' );
+				settings_fields( prefix() . 'option_group' );
 				submit_button();
 				do_settings_sections( 'oiym-setting-admin' );
 				submit_button();
@@ -193,8 +193,8 @@ class OIYM_SettingsPage {
 	 */
 	public function page_init() {
 		register_setting(
-			OIYM_PREFIX . 'option_group', // Option group
-			OIYM_PREFIX . 'options', // Option name
+			prefix() . 'option_group', // Option group
+			prefix() . 'options', // Option name
 			array( $this, 'sanitize' ) // Sanitize
 		);
 

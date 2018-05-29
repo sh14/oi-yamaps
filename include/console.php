@@ -13,7 +13,7 @@ namespace oiyamaps;
  */
 function console_enqueue_script() {
 	wp_enqueue_script( 'oi_yamaps_admin', plugin_url() . 'js/admin.js', array( 'jquery' ), null, true );
-	$options = get_option( OIYM_PREFIX . 'options' );
+	$options = get_option( prefix() . 'options' );
 	// todo: удалить след. строку и обновить настройки
 	//$options = oi_yamaps_defaults();
 	wp_localize_script( 'oi_yamaps_admin', 'oiyamaps', array(
@@ -219,7 +219,7 @@ function get_edit_form() {
 		),
 	);
 
-	$options = wp_parse_args( get_option( OIYM_PREFIX . 'options' ), oi_yamaps_defaults() );
+	$options = wp_parse_args( get_option( prefix() . 'options' ), oi_yamaps_defaults() );
 
 	$template = '<div class="oiyamaps-form__group">'
 	            . '%label%'

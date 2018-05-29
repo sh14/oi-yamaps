@@ -4,9 +4,9 @@
  */
 namespace oiyamaps;
 
-define( 'OIYM_PATH', plugin_dir_path( __FILE__ ));
-define( 'OIYM_PREFIX', 'oiym_');
-
+function prefix(){
+	return 'oiym_';
+}
 
 /* Display a notice that can be dismissed */
 function oiym_admin_notice()

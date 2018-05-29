@@ -50,16 +50,28 @@ if ( function_exists( 'oinput_form' ) ) {
 //require_once "include/tinymce/shortcode.php";
 
 
+/**
+ * set default variables on plugin activation
+ */
+function activation() {
+	$options = get_option( prefix() . 'options' );
+	// if we don't have any settengs
+	if ( empty( $options ) ) {
+		update_option( prefix() . 'options', oi_yamaps_defaults() );
+	}
+
+	deactivate_plugins( array( '/oi-yamaps/oi-ya-maps.php', ) );
+}
+
+register_activation_hook( __FILE__, __NAMESPACE__ . '\activation' );
+
+
 // localization
 function oi_yamaps() {
 	load_plugin_textdomain( 'oi-yamaps', false, plugin_basename( dirname( __FILE__ ) ) . '/language' );
 }
 
 add_action( 'init', __NAMESPACE__ . '\oi_yamaps' );
-
-
-// do something on plugin activation
-register_activation_hook( 'oi-yamaps.php', 'oi_yamaps_activation' );
 
 /**
  * List of some names of API gists
@@ -190,14 +202,6 @@ function oi_yamaps_defaults() {
 }
 
 
-// set default variables on plugin activation
-function oi_yamaps_activation() {
-	// if we don't have any settengs
-	if ( ! get_option( OIYM_PREFIX . 'options' ) ) {
-		update_option( OIYM_PREFIX . 'options', oi_yamaps_defaults() );
-	}
-}
-
 // check, if maps packege is loaded
 class Ya_map_connected {
 	// default value - packege not loaded yet
@@ -216,12 +220,22 @@ class Ya_map_connected {
 	}
 }
 
-// проверка - включен ли модуль cURL
+/**
+ * Check if cURL module is on.
+ *
+ * @return bool
+ */
 function _isCurl() {
 	return function_exists( 'curl_version' );
 }
 
-// получение контента через cURL
+/**
+ * Get content via cURL.
+ *
+ * @param $url
+ *
+ * @return mixed
+ */
 function curl_get_contents( $url ) {
 	$curl = curl_init( $url );
 	curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
@@ -234,43 +248,54 @@ function curl_get_contents( $url ) {
 	return $data;
 }
 
+/**
+ * Getting data from Yandex
+ *
+ * @param $place
+ *
+ * @return string
+ */
 function oiyamap_geocode( $place ) {
-	// формирование ключа кэша
+
+	// set cash key
 	$key     = md5( $place );
 	$content = '';
 
-	// если в кэше еще нет данных с данным ключом
-	if ( WP_DEBUG == true || ! ( $res = wp_cache_get( $key, 'oi-ya-maps' ) ) ) {
-		// получение данных от Яндекса в формате JSON
+	// if there is no data with that key
+	if ( WP_DEBUG == true || ! ( $content = wp_cache_get( $key, 'oi-yamaps' ) ) ) {
+
 		$place = urlencode( $place );
 
 		$url = "https://geocode-maps.yandex.ru/1.x/?geocode=" . $place . '&format=json';
 
-		// получение методом HTTP GET
+		// get data by GET method
 		$content = wp_remote_get( $url, apply_filters( 'oiyamaps_wp_remote_get_args', array() ) );
-		// если ошибок при получении не возникло
+
 		if ( ! is_wp_error( $content ) ) {
-			// получение контента
+
+			// get the content body
 			$content = wp_remote_retrieve_body( $content );
 
-			// если не удалось получить данные через wp_remote_get
 		} else {
 
+			// something goes wrong
 
-			// если произошла ошибка
 			if ( ! ( $content = @file_get_contents( $url ) ) ) {
-				// если модуль cURL подключен
+
+				// if cURL is on
 				if ( _isCurl() ) {
-					// получение данных через cURL
-					$content = curl_get_contents( $url ); // используем для получения данных curl
+
+					$content = curl_get_contents( $url );
 				} else {
-					return __( 'To show the map cURL must be enabled.', 'oi-yamaps' );
+					$content = __( 'To show the map cURL must be enabled.', 'oi-yamaps' );
+
+					return $content;
 				}
 			}
 		}
 		$content = json_decode( $content, true );
 
-		wp_cache_set( $key, $content, 'oi-ya-maps', HOUR_IN_SECONDS * 24 );
+		wp_cache_set( $key, $content, 'oi-yamaps', HOUR_IN_SECONDS * 24 );
 	}
 
 	return $content;
@@ -278,9 +303,9 @@ function oiyamap_geocode( $place ) {
 
 
 /**
- * Функция определяет что в нее передано и каким образом она вызвана, в результате обработки данных возвращает массив,
- * содержащий информацию об адресе, его координатах и флаг, указывающий на то,
- * что было передано - координаты($result[2]=true) или адрес($result[2]=false)
+ * The function determines what was passed in and how function was called. As a result of processing returns an array
+ * containing information about the address, its coordinates, and a flag indicating
+ * that what was transmitted - coordinates($result[2]=true) or address($result[2]=false)
  *
  * @param null $place
  *
@@ -291,7 +316,7 @@ function get_place( $place = null ) {
 	$coordinates = '';
 	$flag        = true;
 
-	// флаг, указывающий на то, что пользователь указал адрес, а не координаты
+	// address was given
 	$is_coordinates = false;
 
 	if ( ! empty( $_POST['place'] ) ) {
@@ -306,7 +331,7 @@ function get_place( $place = null ) {
 
 			$coordinates = implode( ',', array_reverse( $coordinates ) );
 
-			// функция вычисления координат по предоставленному адресу
+			// get address coordinates
 			$address = oiyamap_geocode( $coordinates );
 
 			$address     = $address['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text'];
@@ -318,10 +343,10 @@ function get_place( $place = null ) {
 			$coordinates = oiyamap_geocode( urldecode( $place ) );
 			$address     = $coordinates['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text'];
 
-			// определение координат
+			// get address
 			$coordinates = $coordinates['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'];
 
-			// расположение координат в формате "широта, долгота"
+			// set coordinates by format: lon, len
 			$coordinates = implode( ',', array_reverse( explode( ' ', trim( $coordinates ) ) ) );
 		}
 	}
@@ -501,8 +526,9 @@ function map_options_add( $atts ) {
  * @return string
  */
 function showyamap( $atts, $content = null ) {
+	print_r( get_option( 'active_plugins' ) );// die();
 	// get attributes from options
-	$option = wp_parse_args( get_option( OIYM_PREFIX . 'options' ), oi_yamaps_defaults() );
+	$option = wp_parse_args( get_option( prefix() . 'options' ), oi_yamaps_defaults() );
 
 	// get attributes of concrete map
 	$atts = wp_parse_args( $atts, $option );
