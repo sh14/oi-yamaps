@@ -18,7 +18,7 @@ namespace oiyamaps;
  */
 function get_template_path( $slug, $name = null ) {
 
-	$pathes = [];
+	$pathes = array();
 
 	if ( ! empty( $name ) ) {
 		$file = "{$slug}-{$name}.php";
@@ -113,9 +113,9 @@ function oiproaccount_multiselect( $atts ) {
 	$atts = wp_parse_args( $atts, [
 		'name'        => 'multiselect',
 		'class'       => '',
-		'values'      => [],
+		'values'      => array(),
 		// элементы списка: массив с элементами key => [label],
-		'values_list' => [],
+		'values_list' => array(),
 		'checkbox'    => true,
 	] );
 
@@ -131,7 +131,7 @@ function oiproaccount_multiselect( $atts ) {
 		// возврат пустой строки
 		return '';
 	}
-	$list = [];
+	$list = array();
 
 	$checked_total = 0;
 	$values        = array_map( 'trim', explode( ',', $atts['values'] ) );

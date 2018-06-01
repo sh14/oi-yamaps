@@ -18,7 +18,7 @@ function console_enqueue_script() {
 	//$options = oi_yamaps_defaults();
 	wp_localize_script( 'oi_yamaps_admin', 'oiyamaps', array(
 		'options'      => $options,
-		'id'           => [],
+		'id'           => array(),
 		//'controls'     => implode( ',', get_match_list( get_api_names( 'controls' ) ) ),
 		//'behaviors'    => implode( ',', get_match_list( get_api_names( 'behaviors' ) ) ),
 		'localization' => array(

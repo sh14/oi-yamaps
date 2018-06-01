@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Oi Yandex.Maps for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-29 12:31+0000\n"
-"PO-Revision-Date: 2018-05-29 12:32+0000\n"
+"PO-Revision-Date: 2018-06-01 04:34+0000\n"
 "Last-Translator: admin <sh-v@ya.ru>\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -166,7 +166,7 @@ msgstr ""
 
 #: include/console.php:84 include/console.php:85
 msgid "Baloon header"
-msgstr "шапка балуна"
+msgstr "Шапка балуна"
 
 #: include/console.php:91 include/console.php:92
 msgid "Baloon body content"

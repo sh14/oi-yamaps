@@ -717,7 +717,7 @@ function get_html( $atts, $base_class = '' ) {
 		'img',
 	];
 	$out    = '';
-	$object = [];
+	$object = array();
 
 	// перебор содержимого массива
 	foreach ( $atts as $key => $value ) {
@@ -747,7 +747,7 @@ function get_html( $atts, $base_class = '' ) {
 
 					// если значение является массивом
 					if ( is_array( $value ) ) {
-						$attributes = [];
+						$attributes = array();
 
 						// атрибуты выстраиваются в строку
 						foreach ( $value as $name => $val ) {
@@ -791,7 +791,7 @@ function get_html( $atts, $base_class = '' ) {
 	}
 
 	if ( empty( $atts['atts'] ) ) {
-		$atts['atts'] = [];
+		$atts['atts'] = array();
 	}
 	// перебор элементов и дописывание закрывающих частей
 	foreach ( $atts as $key => $value ) {
