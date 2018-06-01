@@ -54,7 +54,7 @@ function get_template_path( $slug, $name = null ) {
 	return $path;
 }
 
-function the_template_part( $slug, $name = null, $atts = [], $default = [], $query_var = '' ) {
+function the_template_part( $slug, $name = null, $atts = array(), $default = array(), $query_var = '' ) {
 	$atts = wp_parse_args( $atts, $default );
 
 
@@ -93,7 +93,7 @@ function the_template_part( $slug, $name = null, $atts = [], $default = [], $que
  *
  * @return string
  */
-function get_template_part( $slug, $name = null, $atts = [], $default = [], $query_var = '' ) {
+function get_template_part( $slug, $name = null, $atts = array(), $default = array(), $query_var = '' ) {
 
 	ob_start();
 

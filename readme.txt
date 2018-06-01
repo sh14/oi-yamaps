@@ -12,6 +12,11 @@ The plugin allows you to use Yandex.Maps on your site pages and put placemarks o
 
 == Description ==
 
+<h2>Внимание!</h2>
+    <strong>При обновлении плагина он будет деактивирован и выведется ошибка, что файл не найден - не пугайтесь, просто снова активируйте плагин, все будет работать как прежде.
+    Ошика возникает из-за того, что был переименован основной файл для соответствия правилам оформления плагинов.</strong>
+
+<h2>Warning!</h2>
 <strong>Don't forget to reactivate the plugin after update to v.3.1.4!</strong>
 
 This plugin uses <a target="_blank" href="http://maps.yandex.com/">Yandex.Map</a> API service to provide maps on your site.
