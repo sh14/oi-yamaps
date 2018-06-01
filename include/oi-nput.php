@@ -675,24 +675,24 @@ function get_oitemplate( $template, $atts ) {
  * Making HTML from array with classes by BEM
  *
  * // bem array
- * $user_links = get_html( [
+ * $user_links = get_html( array(
  * 'tag'     => 'div',
- * 'atts'    => [
+ * 'atts'    => array(
  * 'class' => '&__contacts',
- * ],
- * 'content' => [
- * [
+ * ),
+ * 'content' => array(
+ * array(
  * 'tag'     => 'h3',
- * 'atts'    => ['class' => '&__contacts-title',],
+ * 'atts'    => array('class' => '&__contacts-title',),
  * 'content' => __( 'Bio' ),
- * ],
- * [
+ * ),
+ * array(
  * 'tag'     => 'ul',
- * 'atts'    => ['class' => '&__contacts-list',],
+ * 'atts'    => array('class' => '&__contacts-list',),
  * 'content' => implode( "\n", $user_links ),
- * ],
- * ],
- * ], 'profile' );
+ * ),
+ * ),
+ * ), 'profile' );
  *
  * @param        $atts
  * @param string $base_class
@@ -700,22 +700,22 @@ function get_oitemplate( $template, $atts ) {
  * @return string
  */
 function get_html( $atts, $base_class = '' ) {
-	$atts = shortcode_atts( [
+	$atts = shortcode_atts( array(
 		'tag'     => 'div',
-		'atts'    => [
+		'atts'    => array(
 			'class' => '&',
-		],
+		),
 		'content' => '',
-	], $atts );
+	), $atts );
 
-	$mono   = [
+	$mono   = array(
 		'br',
 		'hr',
 		'input',
 		'meta',
 		'link',
 		'img',
-	];
+	);
 	$out    = '';
 	$object = array();
 
@@ -815,12 +815,12 @@ function get_html( $atts, $base_class = '' ) {
 	}
 
 	// порядок составления элементов
-	$order = [
+	$order = array(
 		'tag',
 		'atts',
 		'content',
 		'end_tag',
-	];
+	);
 	foreach ( $order as $key ) {
 		if ( ! empty( $object[ $key ] ) ) {
 			$out .= implode( '', $object[ $key ] );
