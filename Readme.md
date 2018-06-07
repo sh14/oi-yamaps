@@ -46,7 +46,7 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Changelog
 
-###  3.1.4 (29.05.2018) 
+###  3.1.6 (29.05.2018) 
 * new: design;
 * refactoring;
 * fix: new arrays work in php 5.4

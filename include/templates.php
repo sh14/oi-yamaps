@@ -110,14 +110,14 @@ function get_template_part( $slug, $name = null, $atts = array(), $default = arr
  * @return string
  */
 function oiproaccount_multiselect( $atts ) {
-	$atts = wp_parse_args( $atts, [
+	$atts = wp_parse_args( $atts, array(
 		'name'        => 'multiselect',
 		'class'       => '',
 		'values'      => array(),
 		// элементы списка: массив с элементами key => [label],
 		'values_list' => array(),
 		'checkbox'    => true,
-	] );
+	) );
 
 	$atts['class'] .=' js-multiselect';
 
