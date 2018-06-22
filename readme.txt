@@ -4,7 +4,7 @@ Donate link: https://money.yandex.ru/topup/card/carddetails.xml?receiver=4100111
 Tags: coordinates, maps, geolocation, location, placemark, yandex
 Requires at least: 3.2
 Tested up to: 4.9.6
-Stable tag: 3.1.6
+Stable tag: 3.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html 
 
@@ -13,7 +13,7 @@ The plugin allows you to use Yandex.Maps on your site pages and put placemarks o
 == Description ==
 
 <h2>Внимание!</h2>
-    <strong>При обновлении плагина он будет деактивирован и выведется ошибка, что файл не найден - не пугайтесь, просто снова активируйте плагин, все будет работать как прежде.
+    <strong>При обновлении плагина до версии <strong>3.1.6</strong> он будет деактивирован и выведется ошибка, что файл не найден - не пугайтесь, просто снова активируйте плагин, все будет работать как прежде.
     Ошика возникает из-за того, что был переименован основной файл для соответствия правилам оформления плагинов.</strong>
 
 <h2>Warning!</h2>
@@ -58,6 +58,8 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 == Changelog ==
 
+= 3.1.6 (22.06.2018) =
+* fix: the symbol of the number 1 was deleted before the map;
 = 3.1.6 (29.05.2018) =
 * new: design;
 * refactoring;
