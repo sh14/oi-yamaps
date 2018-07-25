@@ -46,6 +46,8 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Changelog
 
+###  3.1.8 (25.07.2018) 
+* fix: custom placemark special attribut added;
 ###  3.1.7 (22.06.2018) 
 * fix: the symbol of the number 1 was deleted before the map;
 ###  3.1.6 (29.05.2018) 

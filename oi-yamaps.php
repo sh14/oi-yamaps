@@ -4,7 +4,7 @@ Plugin Name: Oi Yandex.Maps for WordPress
 Plugin URI: https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/
 Description: The plugin allows you to use Yandex.Maps on your site pages and put the placemarks on the map. Without an API key. <strong>Don't forget to reactivate the plugin!</strong>
 Author: Alexei Isaenko
-Version: 3.1.7
+Version: 3.1.8
 Author URI: https://oiplug.com/members/isaenkoalexei
 Text Domain: oi-yamaps
 Domain Path: /language
@@ -201,6 +201,7 @@ function oi_yamaps_defaults() {
 		'footer'         => '',
 		'hint'           => '',
 		'coordinates'    => '',
+		'iconlayout'     => '',
 		'iconimage'      => '',
 		'button_caption' => __( 'Show the map', 'oi-yamaps' ),
 		'iconcontent'    => '',
@@ -365,7 +366,7 @@ function get_place( $place = null ) {
 		}
 	}
 
-	$result = array( $address, $coordinates, $is_coordinates );
+	$result = array($address, $coordinates, $is_coordinates);
 
 	if ( $flag == false ) {
 		wp_send_json( $result );
@@ -641,6 +642,7 @@ function showyamap( $atts, $content = null ) {
 			'iconcontent' => $atts['iconcontent'],
 			'iconcaption' => $atts['iconcaption'],
 			'placemark'   => $atts['placemark'],
+			'iconlayout'  => $atts['iconlayout'],
 			'iconimage'   => $atts['iconimage'],
 			'iconsize'    => '',
 			'iconoffset'  => '',
@@ -695,14 +697,18 @@ function showyamap( $atts, $content = null ) {
 		$atts['lat']            = array();
 		$atts['lon']            = array();
 		foreach ( $vars['placemarks'] as $key => $value ) {
-			// set placemark if it's not...
-			if ( empty( $value['placemark'] ) ) {
-				$value['placemark'] = $atts['placemark'];
+			if ( ! empty( $value ) ) {
+
+				// set placemark if it's not...
+				if ( empty( $value['placemark'] ) ) {
+					$value['placemark'] = $atts['placemark'];
+				}
+
+				if ( empty( $atts['center'] ) ) {
+					list( $atts['lat'][], $atts['lon'][] ) = explode( ',', $value['coordinates'] );
+				}
+				$atts['placemark_code'] .= placemark_code( $value );
 			}
-			if ( empty( $atts['center'] ) ) {
-				list( $atts['lat'][], $atts['lon'][] ) = explode( ',', $value['coordinates'] );
-			}
-			$atts['placemark_code'] .= placemark_code( $value );
 		}
 		if ( empty( $atts['center'] ) ) {
 			// center betwin all placemarks
@@ -828,11 +834,16 @@ function placemark_code( $atts ) {
 		'iconcontent' => '',
 		'iconcaption' => '',
 		'placemark'   => '',
+		'iconlayout'  => '',
 		'iconimage'   => '',
 		'iconsize'    => '',
 		'iconoffset'  => '',
 		'iconrect'    => '',
 	), $atts );
+
+	if ( ! empty( $atts['iconimage'] ) && empty( $atts['iconlayout'] ) ) {
+		$atts['iconlayout'] = 'default#image';
+	}
 
 	foreach ( $atts as $key => $value ) {
 		if ( ! empty( $atts[ $key ] ) ) {
@@ -864,12 +875,12 @@ function placemark_code( $atts ) {
 				case 'footer':
 					$atts['footer'] = 'balloonContentFooter: "' . $atts['footer'] . '",';
 					break;
-
-
 				case 'hint':
 					$atts['hint'] = 'hintContent: "' . $atts['hint'] . '"';
 					break;
-
+				case 'iconlayout':
+					$atts['iconlayout'] = 'iconLayout: "' . $atts['iconlayout'] . '", ';
+					break;
 				case 'iconimage':
 					$atts['iconimage'] = 'iconImageHref: "' . $atts['iconimage'] . '", ';
 					break;
@@ -893,11 +904,14 @@ function placemark_code( $atts ) {
 		}
 	}
 
+	echo '<pre>';
+	print_r( $atts );
+	echo '</pre>';
 	// replace braces with triangular brackets
-	$content_tags = array( 'header', 'body', 'footer', );
+	$content_tags = array('header', 'body', 'footer',);
 	foreach ( $content_tags as $tag ) {
 		if ( ! empty( $atts[ $tag ] ) ) {
-			$atts[ $tag ] = str_replace( array( '{', '}', ), array( '<', '>', ), $atts[ $tag ] );
+			$atts[ $tag ] = str_replace( array('{', '}',), array('<', '>',), $atts[ $tag ] );
 		}
 	}
 
@@ -912,6 +926,7 @@ function placemark_code( $atts ) {
 	          '},
 				{' .
 	          $atts['placemark'] .
+	          $atts['iconlayout'] .
 	          $atts['iconimage'] .
 	          $atts['iconsize'] .
 	          $atts['iconoffset'] .
@@ -938,6 +953,7 @@ function placemark( $atts ) {
 		'iconcontent' => '',
 		'iconcaption' => '',
 		'placemark'   => '',
+		'iconlayout'  => '',
 		'iconimage'   => '',
 		'iconsize'    => '',
 		'iconoffset'  => '',
@@ -980,6 +996,7 @@ function placemark( $atts ) {
 			'iconcontent' => $atts['iconcontent'],
 			'iconcaption' => $atts['iconcaption'],
 			'placemark'   => $atts['placemark'],
+			'iconlayout'  => $atts['iconlayout'],
 			'iconimage'   => $atts['iconimage'],
 			'iconsize'    => $atts['iconsize'],
 			'iconoffset'  => $atts['iconoffset'],
