@@ -904,9 +904,6 @@ function placemark_code( $atts ) {
 		}
 	}
 
-	echo '<pre>';
-	print_r( $atts );
-	echo '</pre>';
 	// replace braces with triangular brackets
 	$content_tags = array('header', 'body', 'footer',);
 	foreach ( $content_tags as $tag ) {
