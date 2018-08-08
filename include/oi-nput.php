@@ -1,15 +1,15 @@
 <?php
-/*
-Plugin Name: Oi Nput
-Plugin URI: http://oiplug.com
-Description: Plugin for making HTML forms via array.
-Version: 1.4
-Author: Alexei Isaenko
-Author URI: http://sh14.ru
-License: GPL2
-Tags: input, textarea, select, option, password, hidden, checkbox, radiobox
-GitHub Plugin URI: https://github.com/sh14/oi-nput
-*/
+/**
+ * Plugin Name: Oi Nput
+ * Plugin URI: http://oiplug.com
+ * Description: Plugin for making HTML forms via array.
+ * Version: 1.5
+ * Author: Alexei Isaenko
+ * Author URI: http://sh14.ru
+ * License: GPL2
+ * Tags: input, textarea, select, option, password, hidden, checkbox, radiobox
+ * GitHub Plugin URI: https://github.com/sh14/oi-nput
+ */
 
 if ( ! function_exists( 'esc_attr' ) ) {
 	function esc_html( $text ) {
@@ -94,15 +94,14 @@ function attributes_to_string( $array, $prefix = '' ) {
 			// если есть префикс
 			if ( ! empty( $prefix ) ) {
 				// формирование и добавление атрибута в массив
-				$data[] = $prefix .'-'. $key . '="' . $value . '"';
+				$data[] =$prefix . '-'. $key . '="' . $value . '"';
 			}else{
-				// формирование и добавление атрибута в массив
-				$data[] =  $key . '="' . $value . '"';
+				// формирование и добавление атрибутав массив
+				$data[] = $key . '="' . $value . '"';
 			}
 		} else {
 			$data[] = attributes_to_string( $value, $key );
 		}
-
 	}
 
 	// перевод массива в строку
@@ -132,6 +131,9 @@ function oireplace_vars( $html, $atts, $out ) {
 
 	// проход по всем атрибутам
 	foreach ( $atts as $key => $value ) {
+		if ( is_numeric( $value ) || is_bool( $value ) ) {
+			$value .= '';
+		}
 		if ( is_string( $value ) ) {
 			// замена псевдопременной ее значением
 			$html = str_replace( '%' . $key . '%', $value, $html );
@@ -145,16 +147,6 @@ function oireplace_vars( $html, $atts, $out ) {
 }
 
 if ( ! function_exists( 'oinput' ) ) {
-
-	/*function oinput_array_to_string( $array ) {
-		if ( is_array( $array ) && ! empty( $array ) ) {
-			foreach ( $array as $key => $value ) {
-
-			}
-		}
-
-		return $array;
-	}*/
 
 	/*
 	 * Clone of oinput() in WP style
@@ -184,7 +176,7 @@ if ( ! function_exists( 'oinput' ) ) {
 			$value = $value . '';
 
 			// если значение не пустое и оно не массив
-			if ( isset( $value ) && ! is_array( $value ) && $value != '' ) {
+			if ( isset( $value ) && ! is_array( $value ) && '' !== $value ) {
 
 				// делается эскейп для вывода как атрибута
 				$value = esc_attr( $value );
@@ -242,7 +234,7 @@ if ( ! function_exists( 'oinput' ) ) {
 		}
 
 		// exit if don't need to publish that field
-		if ( $atts['published'] == false ) {
+		if ( false === $atts['published'] ) {
 			return false;
 		}
 
@@ -259,7 +251,7 @@ if ( ! function_exists( 'oinput' ) ) {
 		$atts['type'] = $field_type;
 
 		// если тип поля не select и переменная является строкой
-		if ( $field_type != 'select' && is_string( $atts['value'] ) ) {
+		if ( 'select' !== $field_type && is_string( $atts['value'] ) ) {
 			// определение новой переменной с эскейпом
 			$field_value = esc_attr( $atts['value'] );
 
@@ -270,7 +262,7 @@ if ( ! function_exists( 'oinput' ) ) {
 			$field_value = $atts['value'];
 		}
 
-		if ( $atts['name'] || $field_type == 'submit' || $field_type == 'button' || $field_type == 'html' ) {
+		if ( $atts['name'] || 'submit' === $field_type || 'button' === $field_type || 'html' === $field_type ) {
 			if ( empty( $atts['id'] ) ) {
 				$atts['id'] = $atts['name'];
 
@@ -286,7 +278,12 @@ if ( ! function_exists( 'oinput' ) ) {
 			}
 
 			// list of labels
-			$attributes = array( 'before', 'after', 'label', );
+			$attributes = array(
+				'before',
+				'after',
+				'label',
+			);
+
 			foreach ( $attributes as $key ) {
 				if ( ! empty( $atts[ $key ] ) && ! in_array( $atts['type'], array( 'checkbox', 'radio' ) ) ) {
 					$atts[ $key ] = '<label ' . $atts['label_class'] . ' for="' . esc_attr( $atts['id'] ) . '">' . esc_html( $atts[ $key ] ) . '</label>';
@@ -294,9 +291,16 @@ if ( ! function_exists( 'oinput' ) ) {
 			}
 
 			// list of boolean attributes
-			$attributes = array( 'checked', 'multiple', 'readonly', 'disabled', 'required', );
+			$attributes = array(
+				'checked',
+				'multiple',
+				'readonly',
+				'disabled',
+				'required',
+			);
+
 			foreach ( $attributes as $key ) {
-				if ( $atts[ $key ] == true ) {
+				if ( true === $atts[ $key ] ) {
 					$atts[ $key ] = ' ' . esc_attr( $key ) . '="' . esc_attr( $key ) . '"';
 				} else {
 					$atts[ $key ] = '';
@@ -304,22 +308,25 @@ if ( ! function_exists( 'oinput' ) ) {
 			}
 
 			// list of boolean non pair attributes
-			$attributes = array( 'autofocus', );
+			$attributes = array(
+				'autofocus',
+			);
+
 			foreach ( $attributes as $key ) {
-				if ( $atts[ $key ] == true ) {
+				if ( true === $atts[ $key ] ) {
 					$atts[ $key ] = ' ' . esc_attr( $key );
 				} else {
 					$atts[ $key ] = '';
 				}
 			}
 
-			if ( $atts['autofocus_at_end'] == true ) {
+			if ( true === $atts['autofocus_at_end'] ) {
 				$atts['autofocus_at_end'] = ' onfocus="this.value = this.value;"';
 			} else {
 				$atts['autofocus_at_end'] = '';
 			}
 
-			if ( $field_type != 'option' ) {
+			if ( 'option' !== $field_type ) {
 				// list of attributes
 				$attributes = array(
 					'id',
@@ -340,14 +347,14 @@ if ( ! function_exists( 'oinput' ) ) {
 						// если элемент является массивом
 						if ( is_array( $atts[ $key ] ) ) {
 
-							if ( $key == 'class' ) {
+							if ( 'class' === $key ) {
 
 								// формирование строки, содержащей классы
 								$atts[ $key ] = ' ' . $key . '="' . esc_attr( implode( ' ', array_map( 'trim', $atts[ $key ] ) ) ) . '"';
 							} else {
 
 								// если проверяется стиль
-								if ( $key == 'style' ) {
+								if ( 'style' === $key ) {
 
 									// если атрибут что-то содержит
 									if ( ! empty( $atts[ $key ] ) ) {
@@ -366,7 +373,7 @@ if ( ! function_exists( 'oinput' ) ) {
 										$atts[ $key ] = ' style="' . implode( ';', $data ) . '"';
 									}
 									// если атрибут data
-								} else if ( $key == 'data' ) {
+								} elseif ( 'data' === $key ) {
 
 									// если содержимое что-то содержит
 									if ( ! empty( $atts[ $key ] ) ) {
@@ -374,8 +381,8 @@ if ( ! function_exists( 'oinput' ) ) {
 										// преобразование всех data в строку
 										$atts[ $key ] = attributes_to_string( $atts[ $key ], $key );
 									}
+								} elseif ( 'attributes' === $key ) {
 
-								} else if ( $key == 'attributes' ) {
 									// если содержимое что-то содержит
 									if ( ! empty( $atts[ $key ] ) ) {
 
@@ -385,7 +392,7 @@ if ( ! function_exists( 'oinput' ) ) {
 								}
 							}
 						} else {
-							if ( $key == 'data' ) {
+							if ( 'data' === $key ) {
 								$atts[ $key ] = ' ' . implode( ' ', $atts[ $key ] );
 							} else {
 
@@ -407,23 +414,22 @@ if ( ! function_exists( 'oinput' ) ) {
 									$atts['hint'] = '<span class="help-block description">' . esc_html( $atts['hint'] ) . '</span>';
 								}*/
 
-				if ( $field_type != 'option' ) {
+				if ( 'option' !== $field_type ) {
+
 					// формирование элемента
-					$atts['attributes'] = $atts['placeholder'] .
-					                      $atts['style'] .
-					                      $atts['checked'] .
-					                      $atts['multiple'] .
-					                      $atts['readonly'] .
-					                      $atts['disabled'] .
-					                      $atts['required'] .
-					                      $atts['autofocus'] .
-					                      $atts['autofocus_at_end'] .
-					                      $atts['data'] .
-					                      $atts['attributes'] .
-					                      '';
+					$atts['attributes'] = $atts['placeholder']
+					                      . $atts['style']
+					                      . $atts['checked']
+					                      . $atts['multiple']
+					                      . $atts['readonly']
+					                      . $atts['disabled']
+					                      . $atts['required']
+					                      . $atts['autofocus']
+					                      . $atts['autofocus_at_end']
+					                      . $atts['data']
+					                      . $atts['attributes'];
 				}
 			}
-
 
 			switch ( $field_type ) {
 				case 'select':
@@ -475,7 +481,7 @@ if ( ! function_exists( 'oinput' ) ) {
 
 					$out = '';
 					if ( ! empty( $atts['name'] ) && is_array( $atts['name'] ) ) {
-						foreach ( $atts['name'] as $k => $v ) {
+						foreach ( (array) $atts['name'] as $k => $v ) {
 
 							// указание, что элемент пока не является выбранным
 							$selected = '';
@@ -513,9 +519,10 @@ if ( ! function_exists( 'oinput' ) ) {
 					$out = '<' . $tag . $atts['class'] . $atts['type'] . $atts['id'] . $atts['name'] . $atts['attributes'] . $atts['value'] . ' />';
 					break;
 				case 'radio':
-					if ( ! empty( $field_value ) ) // if we have a value
-					{
-						$atts['attributes'] .= ' checked="checked"'; // it means that that radio was checked
+					// if we have a value
+					if ( ! empty( $field_value ) ) {
+						// it means that that radio was checked
+						$atts['attributes'] .= ' checked="checked"';
 					}
 					$out = '<' . $tag . $atts['class'] . $atts['type'] . $atts['id'] . $atts['name'] . $atts['attributes'] . $atts['value'] . ' />';
 					break;
@@ -595,10 +602,11 @@ function oinput_form( $fields, $atts = null ) {
 	}
 
 	// если не указано, что метод передачи POST
-	if ( $atts['method'] != 'post' ) {
+	if ( 'post' !== $atts['method'] ) {
 		// устанавливается метод передачи GET
 		$atts['method'] = 'get';
 	}
+
 	// trim all none boolean data
 	if ( ! empty( $atts ) ) {
 		foreach ( $atts as $key => $value ) {
@@ -610,7 +618,12 @@ function oinput_form( $fields, $atts = null ) {
 	$atts['action'] = esc_url( $atts['action'] );
 
 	// список атрибутов, которые надо сформировать в правиьном виде: атрибут="значение"
-	$attributes = array( 'id', 'name', 'method', 'action', );
+	$attributes = array(
+		'id',
+		'name',
+		'method',
+		'action',
+	);
 
 	// проход по списку атрибутов
 	foreach ( $attributes as $key ) {
@@ -624,10 +637,10 @@ function oinput_form( $fields, $atts = null ) {
 		$atts['attributes'] .= $atts[ $key ];
 	}
 
-	if ( $atts['form'] == true ) {
+	if ( true === $atts['form'] ) {
 		$out = '<form ' . $atts['attributes'] . '>' . $out . '</form>';
 	}
-	if ( $atts['echo'] == true ) {
+	if ( true === $atts['echo'] ) {
 		echo $out;
 	}
 
@@ -649,7 +662,6 @@ function get_oitemp( $template, $atts, $include = array() ) {
 			}
 			$template = str_replace( '%' . $key . '%', $value, $template );
 		}
-
 	}
 
 	return $template;
@@ -675,24 +687,24 @@ function get_oitemplate( $template, $atts ) {
  * Making HTML from array with classes by BEM
  *
  * // bem array
- * $user_links = get_html( array(
+ * $user_links = get_html( [
  * 'tag'     => 'div',
- * 'atts'    => array(
+ * 'atts'    => [
  * 'class' => '&__contacts',
- * ),
- * 'content' => array(
- * array(
+ * ],
+ * 'content' => [
+ * [
  * 'tag'     => 'h3',
- * 'atts'    => array('class' => '&__contacts-title',),
+ * 'atts'    => ['class' => '&__contacts-title',],
  * 'content' => __( 'Bio' ),
- * ),
- * array(
+ * ],
+ * [
  * 'tag'     => 'ul',
- * 'atts'    => array('class' => '&__contacts-list',),
+ * 'atts'    => ['class' => '&__contacts-list',],
  * 'content' => implode( "\n", $user_links ),
- * ),
- * ),
- * ), 'profile' );
+ * ],
+ * ],
+ * ], 'profile' );
  *
  * @param        $atts
  * @param string $base_class
@@ -700,24 +712,24 @@ function get_oitemplate( $template, $atts ) {
  * @return string
  */
 function get_html( $atts, $base_class = '' ) {
-	$atts = shortcode_atts( array(
+	$atts = shortcode_atts( [
 		'tag'     => 'div',
-		'atts'    => array(
+		'atts'    => [
 			'class' => '&',
-		),
+		],
 		'content' => '',
-	), $atts );
+	], $atts );
 
-	$mono   = array(
+	$mono   = [
 		'br',
 		'hr',
 		'input',
 		'meta',
 		'link',
 		'img',
-	);
+	];
 	$out    = '';
-	$object = array();
+	$object = [];
 
 	// перебор содержимого массива
 	foreach ( $atts as $key => $value ) {
@@ -747,7 +759,7 @@ function get_html( $atts, $base_class = '' ) {
 
 					// если значение является массивом
 					if ( is_array( $value ) ) {
-						$attributes = array();
+						$attributes = [];
 
 						// атрибуты выстраиваются в строку
 						foreach ( $value as $name => $val ) {
@@ -769,12 +781,11 @@ function get_html( $atts, $base_class = '' ) {
 					}
 					break;
 				case 'content':
-
 					// если элемент является массивом, вероятно это описание вложенного элемента или набора вложений
 					if ( is_array( $value ) ) {
 
 						foreach ( $value as $index => $val ) {
-							pr( $val );
+							//pr( $val );
 							$object[ $key ][] = get_html( $value, $base_class );
 						}
 					} else {
@@ -791,7 +802,7 @@ function get_html( $atts, $base_class = '' ) {
 	}
 
 	if ( empty( $atts['atts'] ) ) {
-		$atts['atts'] = array();
+		$atts['atts'] = [];
 	}
 	// перебор элементов и дописывание закрывающих частей
 	foreach ( $atts as $key => $value ) {
@@ -815,20 +826,19 @@ function get_html( $atts, $base_class = '' ) {
 	}
 
 	// порядок составления элементов
-	$order = array(
+	$order = [
 		'tag',
 		'atts',
 		'content',
 		'end_tag',
-	);
+	];
 	foreach ( $order as $key ) {
 		if ( ! empty( $object[ $key ] ) ) {
 			$out .= implode( '', $object[ $key ] );
 		}
-
 	}
 
 	return $out;
 }
 
-// eof
+// eof;

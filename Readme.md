@@ -46,6 +46,8 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 
 ## Changelog
 
+###  3.1.9 (08.08.2018) 
+* fix: plugin header correction;
 ###  3.1.8 (25.07.2018) 
 * fix: custom placemark special attribut added;
 ###  3.1.7 (22.06.2018) 
