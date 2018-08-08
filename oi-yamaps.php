@@ -9,6 +9,7 @@
  * Author URI: https://oiplug.com/members/isaenkoalexei
  * Text Domain: oi-yamaps
  * Domain Path: /language
+ * GitHub Plugin URI: https://github.com/sh14/oi-yamaps
  */
 
 
