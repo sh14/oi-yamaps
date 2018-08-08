@@ -2,8 +2,7 @@
 /**
  * Plugin Name: Oi Yandex.Maps for WordPress
  * Plugin URI: https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/
- * Description: The plugin allows you to use Yandex.Maps on your site pages and put the placemarks on the map. Without
- * an API key. <strong>Don't forget to reactivate the plugin!</strong>
+ * Description: The plugin allows you to use Yandex.Maps on your site pages and put the placemarks on the map. Without an API key. <strong>Don't forget to reactivate the plugin!</strong>
  * Author: Alexei Isaenko
  * Version: 3.1.9
  * Author URI: https://oiplug.com/members/isaenkoalexei
