@@ -57,7 +57,8 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 4. Map form.
 
 == Changelog ==
-
+= 3.2.0 (09.08.2018) =
+* fix: arrays definition has been fixed, setted 'array()' instead of '[]';
 = 3.1.9 (08.08.2018) =
 * fix: plugin header correction;
 = 3.1.8 (25.07.2018) =
