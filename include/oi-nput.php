@@ -712,24 +712,24 @@ function get_oitemplate( $template, $atts ) {
  * @return string
  */
 function get_html( $atts, $base_class = '' ) {
-	$atts = shortcode_atts( [
+	$atts = shortcode_atts( array(
 		'tag'     => 'div',
-		'atts'    => [
+		'atts'    => array(
 			'class' => '&',
-		],
+		),
 		'content' => '',
-	], $atts );
+	), $atts );
 
-	$mono   = [
+	$mono   = array(
 		'br',
 		'hr',
 		'input',
 		'meta',
 		'link',
 		'img',
-	];
+	);
 	$out    = '';
-	$object = [];
+	$object = array();
 
 	// перебор содержимого массива
 	foreach ( $atts as $key => $value ) {
@@ -759,7 +759,7 @@ function get_html( $atts, $base_class = '' ) {
 
 					// если значение является массивом
 					if ( is_array( $value ) ) {
-						$attributes = [];
+						$attributes = array();
 
 						// атрибуты выстраиваются в строку
 						foreach ( $value as $name => $val ) {
@@ -802,7 +802,7 @@ function get_html( $atts, $base_class = '' ) {
 	}
 
 	if ( empty( $atts['atts'] ) ) {
-		$atts['atts'] = [];
+		$atts['atts'] = array();
 	}
 	// перебор элементов и дописывание закрывающих частей
 	foreach ( $atts as $key => $value ) {
@@ -826,12 +826,12 @@ function get_html( $atts, $base_class = '' ) {
 	}
 
 	// порядок составления элементов
-	$order = [
+	$order = array(
 		'tag',
 		'atts',
 		'content',
 		'end_tag',
-	];
+	);
 	foreach ( $order as $key ) {
 		if ( ! empty( $object[ $key ] ) ) {
 			$out .= implode( '', $object[ $key ] );
