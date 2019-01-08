@@ -4,9 +4,6 @@
  */
 namespace oiyamaps;
 
-function prefix(){
-	return 'oiym_';
-}
 
 /* Display a notice that can be dismissed */
 function oiym_admin_notice()
