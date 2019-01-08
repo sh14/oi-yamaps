@@ -1,6 +1,7 @@
 (function ( $ ) {
 	'use strict';
 
+
 	// global variable for storing template blocks
 	let cache = {};
 
@@ -605,6 +606,62 @@
 		return json;
 	}
 
+	function parseShortcodes(){
+
+		var media = wp.media, shortcode_string = 'showyamap';
+		wp.mce = wp.mce || {};
+		wp.mce.oiyamaps = {
+			shortcode_data: {},
+			template: media.template( 'oiyamaps' ),
+			getContent: function() {
+				var options = this.shortcode.attrs.named;
+				options.text = this.text;
+				options.plugin = 'karta';
+				options.innercontent = this.shortcode.content;
+				return this.template(options);
+			},
+			View: { // before WP 4.2:
+				template: media.template( 'oiyamaps' ),
+				postID: $('#post_ID').val(),
+				initialize: function( options ) {
+					this.shortcode = options.shortcode;
+					wp.mce.oiyamaps.shortcode_data = this.shortcode;
+				},
+				getHtml: function() {
+					var options = this.shortcode.attrs.named;
+					options.innercontent = this.shortcode.content;
+					return this.template(options);
+				}
+			},
+			edit: function( data ) {
+				var shortcode_data = wp.shortcode.next(shortcode_string, data);
+				var values = shortcode_data.shortcode.attrs.named;
+				values.innercontent = shortcode_data.shortcode.content;
+				wp.mce.oiyamaps.popupwindow(tinyMCE.activeEditor, values);
+			},
+			// this is called from our tinymce plugin, also can call from our "edit" function above
+			// wp.mce.oiyamaps.popupwindow(tinyMCE.activeEditor, "bird");
+			popupwindow: function(editor, values, onsubmit_callback){
+
+				values = values || [];
+				editMapAction=true;
+				ym['map0']={};
+				ym['map0'].places={};
+				for(var key in values) {
+					ym['map0'][key]=values[key];
+					delete ym['map0'].innercontent;
+					findPlaceMarks(values.innercontent);
+
+				}
+				mapcenter=ym.map0.center;
+				mapzoom=ym.map0.zoom;
+				//tinymce.activeEditor.execCommand("yamap_command");
+
+			}
+		};
+		wp.mce.views.register( shortcode_string, wp.mce.oiyamaps );
+	}
+	parseShortcodes();
 
 })( jQuery );
 
