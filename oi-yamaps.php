@@ -68,14 +68,16 @@ function is_json( $data ) {
  * Include all necessary files
  */
 function require_files() {
-	require_once Plugin::$data['path_dir'] . '/include/init.php';
+	require_once Plugin::$data['path_dir'] . 'include/create-tables.php';
+	require_once Plugin::$data['path_dir'] . 'include/address-cache.php';
+	require_once Plugin::$data['path_dir'] . 'include/init.php';
 	if ( ! function_exists( 'oinput_form' ) ) {
 		require_once Plugin::$data['path_dir'] . 'include/oi-nput.php';
 	}
 	if ( function_exists( 'oinput_form' ) ) {
-		require_once Plugin::$data['path_dir'] . '/include/templates.php';
-		require_once Plugin::$data['path_dir'] . '/include/console.php';
-		require_once Plugin::$data['path_dir'] . '/include/options.php';
+		require_once Plugin::$data['path_dir'] . 'include/templates.php';
+		require_once Plugin::$data['path_dir'] . 'include/console.php';
+		require_once Plugin::$data['path_dir'] . 'include/options.php';
 	}
 	//require_once "include/tinymce/shortcode.php";
 }
@@ -87,10 +89,10 @@ add_action( 'init', __NAMESPACE__ . '\require_files' );
  * set default variables on plugin activation
  */
 function activation() {
-	$options = get_option( prefix() . 'options' );
+	$options = get_option( __NAMESPACE__.'_options' );
 	// if we don't have any settengs
 	if ( empty( $options ) ) {
-		update_option( prefix() . 'options', oi_yamaps_defaults() );
+		update_option( __NAMESPACE__.'_options', oi_yamaps_defaults() );
 	}
 }
 
@@ -306,7 +308,7 @@ function oiyamap_geocode( $place ) {
 	$content = '';
 
 	// if there is no data with that key
-	if ( WP_DEBUG == true || ! ( $content = wp_cache_get( $key, 'oi-yamaps' ) ) ) {
+	if ( /*WP_DEBUG == true ||*/ ! ( $content = get_address_cache( $key ) ) ) {
 
 		$place = urlencode( $place );
 
@@ -339,7 +341,7 @@ function oiyamap_geocode( $place ) {
 		}
 		$content = json_decode( $content, true );
 
-		wp_cache_set( $key, $content, 'oi-yamaps', HOUR_IN_SECONDS * 24 );
+		set_address_cache( $key, $content );
 	}
 
 	return $content;
@@ -571,7 +573,7 @@ function map_options_add( $atts ) {
  */
 function showyamap( $atts, $content = null ) {
 
-	$options = get_option( prefix() . 'options' );
+	$options = get_option( __NAMESPACE__.'_options' );
 
 	// get attributes from options
 	$option = wp_parse_args( $options, oi_yamaps_defaults() );
