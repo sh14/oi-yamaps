@@ -100,7 +100,9 @@ function activation() {
 register_activation_hook( __FILE__, __NAMESPACE__ . '\activation' );
 
 
-// localization
+/**
+ * Localization function
+ */
 function localization() {
 	load_plugin_textdomain( Plugin::$data['domain'], false, Plugin::$data['slug'] . '/language' );
 }
