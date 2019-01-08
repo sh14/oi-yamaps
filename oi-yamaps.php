@@ -60,24 +60,22 @@ add_action( 'init', function () {
 
 
 /**
- * Function returns name of current plugin directory
- *
- * @return string
+ * Include all necessary files
  */
-function plugin_name() {
-	return plugin_basename( plugin_path() );
+function require_files() {
+	require_once Plugin::$data['path_dir'] . '/include/init.php';
+	if ( ! function_exists( 'oinput_form' ) ) {
+		require_once Plugin::$data['path_dir'] . 'include/oi-nput.php';
+	}
+	if ( function_exists( 'oinput_form' ) ) {
+		require_once Plugin::$data['path_dir'] . '/include/templates.php';
+		require_once Plugin::$data['path_dir'] . '/include/console.php';
+		require_once Plugin::$data['path_dir'] . '/include/options.php';
+	}
+	//require_once "include/tinymce/shortcode.php";
 }
 
-require_once plugin_path() . '/include/init.php';
-if ( ! function_exists( 'oinput_form' ) ) {
-	require_once plugin_path() . 'include/oi-nput.php';
-}
-if ( function_exists( 'oinput_form' ) ) {
-	require_once plugin_path() . '/include/templates.php';
-	require_once plugin_path() . '/include/console.php';
-	require_once plugin_path() . '/include/options.php';
-}
-//require_once "include/tinymce/shortcode.php";
+add_action( 'init', __NAMESPACE__ . '\require_files' );
 
 
 /**
@@ -89,8 +87,6 @@ function activation() {
 	if ( empty( $options ) ) {
 		update_option( prefix() . 'options', oi_yamaps_defaults() );
 	}
-
-	//  deactivate_plugins( array( '/oi-yamaps/oi-yamaps.php', ) );
 }
 
 register_activation_hook( __FILE__, __NAMESPACE__ . '\activation' );
