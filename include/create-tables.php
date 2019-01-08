@@ -32,12 +32,14 @@ function create_tables() {
 			$charset_collate = $wpdb->get_charset_collate();
 			$queries         = array();
 
+			$prefix = Plugin::$data['table_prefix'];
+
 			// составление запросов создания таблиц
 			foreach ( $data as $table_name => $columns ) {
 				if ( empty( $queries[ $table_name ] ) ) {
 					$queries[ $table_name ] = array();
 				}
-				$queries[ $table_name ][] = "CREATE " . "TABLE `{$wpdb->prefix}{$table_name}`";
+				$queries[ $table_name ][] = "CREATE TABLE `{$prefix}{$table_name}`";
 				$column_lines             = array();
 				foreach ( $columns as $key => $value ) {
 					if ( ! empty( $value['ai'] ) ) {
