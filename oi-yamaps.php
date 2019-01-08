@@ -4,7 +4,7 @@
  * Plugin URI: https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/
  * Description: The plugin allows you to put placemarks on the Yandex.Maps. Without an API key.
  * Author: Alexei Isaenko
- * Version: 3.2.3
+ * Version: 3.2.5
  * Author URI: https://oiplug.com/members/isaenkoalexei
  * Text Domain: oi-yamaps
  * Domain Path: /language
@@ -101,11 +101,11 @@ register_activation_hook( __FILE__, __NAMESPACE__ . '\activation' );
 
 
 // localization
-function oi_yamaps() {
-	load_plugin_textdomain( 'oi-yamaps', false, plugin_basename( dirname( __FILE__ ) ) . '/language' );
+function localization() {
+	load_plugin_textdomain( Plugin::$data['domain'], false, Plugin::$data['slug'] . '/language' );
 }
 
-add_action( 'init', __NAMESPACE__ . '\oi_yamaps' );
+add_action( 'init', __NAMESPACE__ . '\localization' );
 
 /**
  * List of some names of API gists
