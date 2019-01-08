@@ -68,6 +68,7 @@ function is_json( $data ) {
  * Include all necessary files
  */
 function require_files() {
+	require_once Plugin::$data['path_dir'] . 'include/upgrade.php';
 	require_once Plugin::$data['path_dir'] . 'include/create-tables.php';
 	require_once Plugin::$data['path_dir'] . 'include/address-cache.php';
 	require_once Plugin::$data['path_dir'] . 'include/init.php';
