@@ -30,11 +30,11 @@ function get_template_path( $slug, $name = null ) {
 	$pathes[] = trailingslashit( get_stylesheet_directory() ) . $file;
 
 	// template from plugin directory in the theme
-	$pathes[] = trailingslashit( get_stylesheet_directory() ) . trailingslashit( plugin_name() ) . $file;
+	$pathes[] = trailingslashit( get_stylesheet_directory() ) . trailingslashit( Plugin::$data['name'] ) . $file;
 
 	// template from plugin directory
-	$pathes[] = trailingslashit( plugin_path() ) . trailingslashit( 'templates' ) . $file;
-	$pathes[] = trailingslashit( plugin_path() ) . $file;
+	$pathes[] = trailingslashit( Plugin::$data['path_dir'] ) . trailingslashit( 'templates' ) . $file;
+	$pathes[] = trailingslashit( Plugin::$data['path_dir'] ) . $file;
 
 	// filter $pathes
 	$pathes = apply_filters( __NAMESPACE__.'_template_path', $pathes, $file );

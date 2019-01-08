@@ -12,7 +12,7 @@ namespace oiyamaps;
  * Enqueue script and styles to console
  */
 function console_enqueue_script() {
-	wp_enqueue_script( 'oi_yamaps_admin', plugin_url() . 'js/admin.js', array( 'jquery' ), null, true );
+	wp_enqueue_script( 'oi_yamaps_admin', Plugin::$data['url'] . 'js/admin.js', array( 'jquery' ), null, true );
 	$options = get_option( prefix() . 'options' );
 	// todo: удалить след. строку и обновить настройки
 	//$options = oi_yamaps_defaults();
@@ -25,7 +25,7 @@ function console_enqueue_script() {
 			'have_to_fillin' => __( 'Field cannot be empty', 'oi-yamaps' ),
 		),
 	) );
-	wp_enqueue_style( 'custom_wp_admin_css', plugin_url() . 'css/style.css' );
+	wp_enqueue_style( 'custom_wp_admin_css', Plugin::$data['url'] . 'css/style.css' );
 }
 
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\console_enqueue_script' );
