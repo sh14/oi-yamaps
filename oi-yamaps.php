@@ -367,7 +367,7 @@ function get_place( $place = null ) {
 		}
 	}
 
-	$result = array($address, $coordinates, $is_coordinates);
+	$result = array( $address, $coordinates, $is_coordinates );
 
 	if ( $flag == false ) {
 		wp_send_json( $result );
@@ -906,10 +906,10 @@ function placemark_code( $atts ) {
 	}
 
 	// replace braces with triangular brackets
-	$content_tags = array('header', 'body', 'footer',);
+	$content_tags = array( 'header', 'body', 'footer', );
 	foreach ( $content_tags as $tag ) {
 		if ( ! empty( $atts[ $tag ] ) ) {
-			$atts[ $tag ] = str_replace( array('{', '}',), array('<', '>',), $atts[ $tag ] );
+			$atts[ $tag ] = str_replace( array( '{', '}', ), array( '<', '>', ), $atts[ $tag ] );
 		}
 	}
 
@@ -1078,5 +1078,24 @@ function multiselect( $atts ) {
 
 	return $out;
 }
+
+/*-----------*/
+
+
+function register_mce_buttons( $buttons ) {
+
+	$buttons[] = __NAMESPACE__;
+
+	return $buttons;
+}
+
+
+//add_filter( "mce_buttons", "register_buttons_editor" );
+
+function shortcode_mce_template() {
+	include_once dirname( __FILE__ ) . '/templates/tiny-mce-block.php';
+}
+
+add_filter( 'mce_external_plugins', __NAMESPACE__ . '\shortcode_mce_template' );
 
 // eof
