@@ -26,7 +26,16 @@ Plugin::init();
 class Plugin {
 	public static $data = array();
 
+	private static function get_table_prefix() {
+		global $wpdb;
+
+		return $wpdb->prefix . __NAMESPACE__ . '_';
+	}
+
 	public static function init() {
+
+		// current plugin directory
+		self::$data['table_prefix'] = self::get_table_prefix();
 
 		// current plugin directory
 		self::$data['path_dir'] = plugin_dir_path( __FILE__ );
@@ -57,7 +66,7 @@ class Plugin {
 }
 
 function is_json( $data ) {
-	json_decode( $data );
+	json_decode( $data, true );
 
 	return json_last_error() == JSON_ERROR_NONE;
 }
@@ -297,6 +306,8 @@ function curl_get_contents( $url ) {
  */
 function oiyamap_geocode( $place ) {
 
+	//$place = mb_strtolower( $place );
+
 	// set cash key
 	$key     = md5( $place );
 	$content = '';
@@ -333,7 +344,10 @@ function oiyamap_geocode( $place ) {
 				}
 			}
 		}
-		$content = json_decode( $content, true );
+
+		if ( is_json( $content ) ) {
+			$content = json_decode( $content, true );
+		}
 
 		set_address_cache( $key, $content );
 	}
