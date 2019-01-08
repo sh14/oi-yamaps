@@ -14,6 +14,9 @@
 
 namespace oiyamaps;
 
+// init plugin data
+Plugin::init();
+
 /**
  * Class contains plugin information.
  *
@@ -53,47 +56,35 @@ class Plugin {
 	}
 }
 
-// init plugin data
-add_action( 'init', function () {
-	Plugin::init();
-} );
-
 function is_json( $data ) {
 	json_decode( $data );
 
 	return json_last_error() == JSON_ERROR_NONE;
 }
 
-/**
- * Include all necessary files
- */
-function require_files() {
-	require_once Plugin::$data['path_dir'] . 'include/upgrade.php';
-	require_once Plugin::$data['path_dir'] . 'include/create-tables.php';
-	require_once Plugin::$data['path_dir'] . 'include/address-cache.php';
-	require_once Plugin::$data['path_dir'] . 'include/init.php';
-	if ( ! function_exists( 'oinput_form' ) ) {
-		require_once Plugin::$data['path_dir'] . 'include/oi-nput.php';
-	}
-	if ( function_exists( 'oinput_form' ) ) {
-		require_once Plugin::$data['path_dir'] . 'include/templates.php';
-		require_once Plugin::$data['path_dir'] . 'include/console.php';
-		require_once Plugin::$data['path_dir'] . 'include/options.php';
-	}
-	//require_once "include/tinymce/shortcode.php";
+require_once Plugin::$data['path_dir'] . 'include/upgrade.php';
+require_once Plugin::$data['path_dir'] . 'include/create-tables.php';
+require_once Plugin::$data['path_dir'] . 'include/address-cache.php';
+require_once Plugin::$data['path_dir'] . 'include/init.php';
+if ( ! function_exists( 'oinput_form' ) ) {
+	require_once Plugin::$data['path_dir'] . 'include/oi-nput.php';
 }
-
-add_action( 'init', __NAMESPACE__ . '\require_files' );
+if ( function_exists( 'oinput_form' ) ) {
+	require_once Plugin::$data['path_dir'] . 'include/templates.php';
+	require_once Plugin::$data['path_dir'] . 'include/console.php';
+	require_once Plugin::$data['path_dir'] . 'include/options.php';
+}
 
 
 /**
  * set default variables on plugin activation
  */
 function activation() {
-	$options = get_option( __NAMESPACE__.'_options' );
+	create_tables();
+	$options = get_option( __NAMESPACE__ . '_options' );
 	// if we don't have any settengs
 	if ( empty( $options ) ) {
-		update_option( __NAMESPACE__.'_options', oi_yamaps_defaults() );
+		update_option( __NAMESPACE__ . '_options', oi_yamaps_defaults() );
 	}
 }
 
@@ -576,7 +567,7 @@ function map_options_add( $atts ) {
  */
 function showyamap( $atts, $content = null ) {
 
-	$options = get_option( __NAMESPACE__.'_options' );
+	$options = get_option( __NAMESPACE__ . '_options' );
 
 	// get attributes from options
 	$option = wp_parse_args( $options, oi_yamaps_defaults() );

@@ -19,7 +19,6 @@ namespace oiyamaps;
  */
 function create_tables() {
 	global $wpdb;
-
 	$data = apply_filters( __NAMESPACE__ . '\create_tables', array() );
 
 	// если массив с таблицами определен
