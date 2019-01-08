@@ -53,6 +53,12 @@ class Plugin {
 	}
 }
 
+// init plugin data
+add_action( 'init', function () {
+	Plugin::init();
+} );
+
+
 /**
  * Function returns name of current plugin directory
  *
