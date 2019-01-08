@@ -2,9 +2,9 @@
 /**
  * Plugin Name: Oi Yandex.Maps for WordPress
  * Plugin URI: https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/
- * Description: The plugin allows you to use Yandex.Maps on your site pages and put the placemarks on the map. Without an API key. <strong>Don't forget to reactivate the plugin!</strong>
+ * Description: The plugin allows you to put placemarks on the Yandex.Maps. Without an API key.
  * Author: Alexei Isaenko
- * Version: 3.2.1
+ * Version: 3.2.2
  * Author URI: https://oiplug.com/members/isaenkoalexei
  * Text Domain: oi-yamaps
  * Domain Path: /language
@@ -15,21 +15,42 @@
 namespace oiyamaps;
 
 /**
- * Function returns path to the current plugin
+ * Class contains plugin information.
  *
- * @return string
+ * Class Plugin
+ * @package oiyamaps
  */
-function plugin_path() {
-	return plugin_dir_path( __FILE__ );
-}
+class Plugin {
+	public static $data = array();
 
-/**
- * Function returns url to the current plugin
- *
- * @return string
- */
-function plugin_url() {
-	return plugin_dir_url( __FILE__ );
+	public static function init() {
+
+		// current plugin directory
+		self::$data['path_dir'] = plugin_dir_path( __FILE__ );
+
+		// current plugin slug
+		self::$data['slug'] = plugin_basename( self::$data['path_dir'] );
+
+		// full path to current plugin
+		self::$data['path'] = self::$data['path_dir'] . self::$data['slug'] . '.php';
+
+		// current plugin url directory
+		self::$data['url'] = plugin_dir_url( __FILE__ );
+
+		// current plugin 8kiB data
+		$file_data  = \get_file_data( self::$data['path'], array(
+			'version'     => 'Version',
+			'name'        => 'Plugin Name',
+			'link'        => 'Plugin URI',
+			'description' => 'Description',
+			'author'      => 'Author',
+			'author_uri'  => 'Author URI',
+			'domain'      => 'Text Domain',
+			'domain_path' => 'Domain Path',
+			'github_uri'  => 'GitHub Plugin URI',
+		) );
+		self::$data = array_merge( self::$data, $file_data );
+	}
 }
 
 /**
