@@ -83,6 +83,8 @@ if ( function_exists( 'oinput_form' ) ) {
 	require_once Plugin::$data['path_dir'] . 'include/console.php';
 	require_once Plugin::$data['path_dir'] . 'include/options.php';
 }
+require_once Plugin::$data['path_dir'] . 'include/ajax.php';
+require_once Plugin::$data['path_dir'] . 'include/rest-api.php';
 
 
 /**
@@ -368,15 +370,9 @@ function oiyamap_geocode( $place ) {
 function get_place( $place = null ) {
 	$address     = '';
 	$coordinates = '';
-	$flag        = true;
 
 	// address was given
 	$is_coordinates = false;
-
-	if ( ! empty( $_POST['place'] ) ) {
-		$place = $_POST['place'];
-		$flag  = false;
-	}
 
 	if ( ! empty( $place ) ) {
 		$coordinates = explode( ',', $place );
@@ -407,14 +403,8 @@ function get_place( $place = null ) {
 
 	$result = array( $address, $coordinates, $is_coordinates );
 
-	if ( $flag == false ) {
-		wp_send_json( $result );
-	}
-
 	return $result;
 }
-
-add_action( 'wp_ajax_' . 'oiyamaps_get_place', __NAMESPACE__ . '\get_place' );
 
 /**
  * Returns an associated array where lowercase key has original value.

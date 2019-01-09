@@ -218,7 +218,7 @@
 		let place                = $( obj ).val();
 		let container            = $( obj ).closest( 'div' );
 		let data                 = {
-			'action' : 'oiyamaps_get_place',
+			'action' : 'oiyamaps_ajax_get_place',
 			'place' : place
 		};
 
