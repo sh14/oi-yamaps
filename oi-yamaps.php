@@ -368,13 +368,11 @@ function oiyamap_geocode( $place ) {
  * @return array
  */
 function get_place( $place = null ) {
-	$address     = '';
-	$coordinates = '';
-
-	// address was given
-	$is_coordinates = false;
-
 	if ( ! empty( $place ) ) {
+
+		// address was given
+		$is_coordinates = false;
+
 		$coordinates = explode( ',', $place );
 		if ( sizeof( $coordinates ) == 2 && is_numeric( trim( $coordinates[0] ) ) && is_numeric( trim( $coordinates[1] ) ) ) {
 			$coordinates = array_map( 'trim', $coordinates );
@@ -399,11 +397,12 @@ function get_place( $place = null ) {
 			// set coordinates by format: lon, len
 			$coordinates = implode( ',', array_reverse( explode( ' ', trim( $coordinates ) ) ) );
 		}
+		$result = array( $address, $coordinates, $is_coordinates );
+
+		return $result;
 	}
 
-	$result = array( $address, $coordinates, $is_coordinates );
-
-	return $result;
+	return array();
 }
 
 /**
@@ -1041,7 +1040,7 @@ add_shortcode( 'placemark', __NAMESPACE__ . '\placemark' );
 
 function oi_yamaps_same_page( $url = null ) {
 	//redirect is back to the current page
-	// Default 
+	// Default
 	$uri = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	if ( ! empty( $url ) ) {
 		if ( strlen( $_SERVER['QUERY_STRING'] ) > 0 ) {
@@ -1125,5 +1124,5 @@ function shortcode_mce_template() {
 }
 
 add_filter( 'mce_external_plugins', __NAMESPACE__ . '\shortcode_mce_template' );
-
+// ыва
 // eof
