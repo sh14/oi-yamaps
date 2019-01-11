@@ -12,6 +12,9 @@ function rest_api_endpoints() {
 	if ( ! empty( $endpoints ) ) {
 		foreach ( $endpoints as $namespace => $points ) {
 			foreach ( $points as $endpoint => $data ) {
+				if(!empty($data['method'])){
+					$data['method'] = strtoupper($data['method']);
+				}
 				register_rest_route( $namespace, $endpoint, $data );
 			}
 		}
@@ -25,7 +28,7 @@ function add_endpoints() {
 	return array(
 		__NAMESPACE__ . '/v1' => array(
 			'/getplace/(?P<place>.*?$)' => array(
-				'methods'  => 'GET',
+				'methods'  => 'get,post',
 				'callback' => function ( $data ) {
 
 					if ( ! empty( $data['place'] ) ) {
