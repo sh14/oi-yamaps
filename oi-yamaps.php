@@ -368,6 +368,12 @@ function oiyamap_geocode( $place ) {
  * @return array
  */
 function get_place( $place = null ) {
+
+	// checking for rest api
+	if ( ! is_string( $place ) ) {
+		$place = $place['place'];
+	}
+
 	if ( ! empty( $place ) ) {
 
 		// address was given
