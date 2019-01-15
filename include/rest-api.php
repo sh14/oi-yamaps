@@ -12,8 +12,8 @@ function rest_api_endpoints() {
 	$endpoints = apply_filters( __NAMESPACE__ . '_endpoints', array() );
 
 	if ( ! empty( $endpoints ) ) {
-		foreach ( $endpoints as $namespace => $points ) {
-			foreach ( $points as $endpoint => $data ) {
+	foreach ( $endpoints as $namespace => $points ) {
+		foreach ( $points as $endpoint => $data ) {
 				if ( ! empty( $data['method'] ) ) {
 					$data['method'] = strtoupper( $data['method'] );
 				}

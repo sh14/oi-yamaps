@@ -1046,7 +1046,7 @@ add_shortcode( 'placemark', __NAMESPACE__ . '\placemark' );
 
 function oi_yamaps_same_page( $url = null ) {
 	//redirect is back to the current page
-	// Default
+	// Default 
 	$uri = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	if ( ! empty( $url ) ) {
 		if ( strlen( $_SERVER['QUERY_STRING'] ) > 0 ) {
