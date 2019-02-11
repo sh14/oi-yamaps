@@ -2,9 +2,9 @@
 /**
  * Plugin Name: Oi Yandex.Maps for WordPress
  * Plugin URI: https://oiplug.com/plugin/oi-yandex-maps-for-wordpress/
- * Description: The plugin allows you to put placemarks on the Yandex.Maps. Without an API key..
+ * Description: The plugin allows you to put placemarks on the Yandex.Maps. Without an API key.
  * Author: Alexei Isaenko
- * Version: 3.2.6
+ * Version: 3.2.7
  * Author URI: https://oiplug.com/members/isaenkoalexei
  * Text Domain: oi-yamaps
  * Domain Path: /language
@@ -84,7 +84,7 @@ if ( function_exists( 'oinput_form' ) ) {
 	require_once Plugin::$data['path_dir'] . 'include/options.php';
 }
 require_once Plugin::$data['path_dir'] . 'include/ajax.php';
-require_once Plugin::$data['path_dir'] . 'include/rest-api.php';
+//require_once Plugin::$data['path_dir'] . 'include/rest-api.php';
 
 
 /**
@@ -319,7 +319,9 @@ function oiyamap_geocode( $place ) {
 
 		$place = urlencode( $place );
 
-		$url = "https://geocode-maps.yandex.ru/1.x/?geocode=" . $place . '&format=json';
+		$options = get_option( __NAMESPACE__ . '_options' );
+
+		$url = "https://geocode-maps.yandex.ru/1.x/?geocode=" . $place . '&apikey=' . $options['apikey'] . '&format=json';
 
 		// get data by GET method
 		$content = wp_remote_get( $url, apply_filters( 'oiyamaps_wp_remote_get_args', array() ) );
@@ -789,9 +791,10 @@ function showyamap( $atts, $content = null ) {
 		// set new id
 		Ya_map_connected::$id ++;
 		// if no maps on a page...
-		if ( $id == 0 ) {
+		if ( empty( $id ) ) {
+			$apikey = ! empty( $atts['apikey'] ) ? '&apikey=' . $atts['apikey'] : '';
 			// ...and show the map
-			$out = '<script type="text/javascript" src="https://api-maps.yandex.ru/2.1/?lang=' . $atts['lang'] . '"></script>' .
+			$out = '<script type="text/javascript" src="https://api-maps.yandex.ru/2.1/?lang=' . $atts['lang'] . $apikey . '"></script>' .
 			       '<style>.YMaps {position: relative;} .YMaps .oi_yamaps_author_link {position: absolute;bottom: 9px; right:330px; z-index: 999;padding:0;display: table!important;line-height:12px;text-decoration:underline!important;white-space: nowrap!important;font-family: Verdana,serif!important;font-size: 10px!important;padding-left: 2px!important;color: #000!important;background-color: rgba(255, 255, 255, 0.7)!important;border:none;}</style>' .
 			       "\n" . $out;
 		} else {
@@ -1040,7 +1043,7 @@ add_shortcode( 'placemark', __NAMESPACE__ . '\placemark' );
 
 function oi_yamaps_same_page( $url = null ) {
 	//redirect is back to the current page
-	// Default
+	// Default 
 	$uri = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	if ( ! empty( $url ) ) {
 		if ( strlen( $_SERVER['QUERY_STRING'] ) > 0 ) {

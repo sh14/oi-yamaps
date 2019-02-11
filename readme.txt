@@ -4,11 +4,11 @@ Donate link: https://money.yandex.ru/topup/card/carddetails.xml?receiver=4100111
 Tags: coordinates, maps, geolocation, location, placemark, yandex
 Requires at least: 3.2
 Tested up to: 4.9.6
-Stable tag: 3.1.7
+Stable tag: 3.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html 
 
-The plugin allows you to use Yandex.Maps on your site pages and put placemarks on the map. Without an API key.
+The plugin allows you to use Yandex.Maps on your site pages and put placemarks on the map.
 
 == Description ==
 
@@ -57,6 +57,32 @@ https://oiplug.com/plugins/oi-yandex-maps-for-wordpress
 4. Map form.
 
 == Changelog ==
+= 3.2.7 (11.02.2019) =
+* API Key support added;
+* wp.media console error fixed;
+* add native rest api functions support;
+* add check for using in rest api;
+* make uppercase for method name;
+* refactor ajax and rest functions;
+* get-place return refactoring;
+* rest api functions added;
+* ajax requests refactoring;
+* prefix refactoring;
+* plugin table prefix added to plugin info;
+* file include refactoring;
+* localization function renamed;
+* upgrade function added;
+* prefix changed;
+* table creation functions added;
+* address caching functions created;
+* is_json function added;
+* prefix function removed;
+* replace plugin static data;
+* include files on wp init;
+* init static class on WP init;
+* static class with plugin info created;
+* register mce button;
+* mce shortcode parser;
 = 3.2.0 (09.08.2018) =
 * fix: arrays definition has been fixed, setted 'array()' instead of '[]';
 = 3.1.9 (08.08.2018) =

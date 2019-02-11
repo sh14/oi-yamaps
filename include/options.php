@@ -4,6 +4,13 @@ namespace oiyamaps;
 
 function oiym_fields() {
 	$fields = array(
+		'apikey'     => array(
+			'title'   => __( 'API Key', 'oi-yamaps' ),
+			'type'    => 'text',
+			'section' => 'setting_section_1',
+			'page'    => 'oiym-setting-admin',
+			//'hint'    => __( 'Use px or %. 400px by default', 'oi-yamaps' ),
+		),
 		'height'      => array(
 			'title'   => __( 'Map height', 'oi-yamaps' ),
 			'type'    => 'text',
@@ -30,7 +37,7 @@ function oiym_fields() {
 			'type'    => 'text',
 			'section' => 'setting_section_1',
 			'page'    => 'oiym-setting-admin',
-			'hint'    => sprintf(__( 'You can use different placemarks. Checkout that page - %s', 'oi-yamaps' ),'<a target="_blank" href="https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/option.presetStorage-docpage/">https://tech.yandex.ru/maps/...</a>'),
+			'hint'    => sprintf( __( 'You can use different placemarks. Checkout that page - %s', 'oi-yamaps' ), '<a target="_blank" href="https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/option.presetStorage-docpage/">https://tech.yandex.ru/maps/...</a>' ),
 		),
 		'author_link' => array(
 			'title'   => __( "Show link to the plugin's page", 'oi-yamaps' ),
@@ -63,8 +70,8 @@ function oiym_psf( $atts ) {
 
 	$out = '';
 
-	if ( $atts['hint'] == '' ) {
-		$atts['hint'] = $fields[ $atts['key'] ]['hint'];
+	if ( empty( $atts['hint'] ) ) {
+		$atts['hint'] = ! empty( $fields[ $atts['key'] ]['hint'] ) ? $fields[ $atts['key'] ]['hint'] : '';
 	}
 	if ( $atts['type'] == '' ) {
 		$atts['type'] = $fields[ $atts['key'] ]['type'];
@@ -113,10 +120,10 @@ function oiym_psf( $atts ) {
 				       $atts['after'] . $atts['hint'];
 				break;
 			case 'text':
-				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . __NAMESPACE__.'_options[' . $atts['key'] . ']" name="' . __NAMESPACE__.'_options[' . $atts['key'] . ']" class="regular-text" value="' . $atts['value'] . '" ' . $atts['addon'] . '/>' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']" name="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']" class="regular-text" value="' . $atts['value'] . '" ' . $atts['addon'] . '/>' . $atts['after'] . $atts['hint'];
 				break;
 			case 'hidden':
-				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . __NAMESPACE__.'_options[' . $atts['key'] . ']" name="' . __NAMESPACE__.'_options[' . $atts['key'] . ']" value="' . $atts['value'] . '">' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']" name="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']" value="' . $atts['value'] . '">' . $atts['after'] . $atts['hint'];
 				break;
 			case 'checkbox':
 				if ( $atts['value'] == '1' ) {
@@ -124,10 +131,10 @@ function oiym_psf( $atts ) {
 				} else {
 					$checked_flag = '';
 				}
-				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . __NAMESPACE__.'_options[' . $atts['key'] . ']" name="' . __NAMESPACE__.'_options[' . $atts['key'] . ']"' . ' value="1"' . $checked_flag . '' . $atts['addon'] . '>' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<input type="' . $atts['type'] . '" id="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']" name="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']"' . ' value="1"' . $checked_flag . '' . $atts['addon'] . '>' . $atts['after'] . $atts['hint'];
 				break;
 			case 'textarea':
-				$out = $atts['before'] . '<textarea class="wp-editor-area" id="' . __NAMESPACE__.'_options[' . $atts['key'] . ']" name="' . __NAMESPACE__.'_options[' . $atts['key'] . ']" ' . $atts['addon'] . '>' . $atts['value'] . '</textarea>' . $atts['after'] . $atts['hint'];
+				$out = $atts['before'] . '<textarea class="wp-editor-area" id="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']" name="' . __NAMESPACE__ . '_options[' . $atts['key'] . ']" ' . $atts['addon'] . '>' . $atts['value'] . '</textarea>' . $atts['after'] . $atts['hint'];
 				break;
 		}
 	}
@@ -169,22 +176,22 @@ class OIYM_SettingsPage {
 	 */
 	public function settings_page() {
 		// Set class property
-		$this->options = ( get_option( __NAMESPACE__.'_options', oi_yamaps_defaults() ) );
+		$this->options = ( get_option( __NAMESPACE__ . '_options', oi_yamaps_defaults() ) );
 		?>
 
-		<div class="wrap">
-			<h2><?php _e( 'Oi Yandex.Maps Settings', 'oi-yamaps' ); ?></h2>
-			<form method="post" action="options.php">
+        <div class="wrap">
+            <h2><?php _e( 'Oi Yandex.Maps Settings', 'oi-yamaps' ); ?></h2>
+            <form method="post" action="options.php">
 				<?php
 				// This prints out all hidden setting fields
-				settings_fields( __NAMESPACE__.'_option_group' );
+				settings_fields( __NAMESPACE__ . '_option_group' );
 				submit_button();
 				do_settings_sections( 'oiym-setting-admin' );
 				submit_button();
 				?>
-			</form>
+            </form>
 
-		</div>
+        </div>
 		<?php
 	}
 
@@ -193,8 +200,8 @@ class OIYM_SettingsPage {
 	 */
 	public function page_init() {
 		register_setting(
-			__NAMESPACE__.'_option_group', // Option group
-			__NAMESPACE__.'_options', // Option name
+			__NAMESPACE__ . '_option_group', // Option group
+			__NAMESPACE__ . '_options', // Option name
 			array( $this, 'sanitize' ) // Sanitize
 		);
 
@@ -273,53 +280,55 @@ class OIYM_SettingsPage {
 
 	public function setting_section_2_callback() {
 		?>
-		<style>
+        <style>
 
-			.myButton {
-				-moz-box-shadow: inset 0 1px 0 0 #9acc85;
-				-webkit-box-shadow: inset 0 1px 0 0 #9acc85;
-				box-shadow: inset 0 1px 0 0 #9acc85;
-				background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #74ad5a), color-stop(1, #68a54b));
-				background: -moz-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-				background: -webkit-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-				background: -o-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-				background: -ms-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-				background: linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
-				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#74ad5a', endColorstr='#68a54b', GradientType=0);
-				background-color: #74ad5a;
-				border: 1px solid #3b6e22;
-				display: table;
-				cursor: pointer;
-				color: #fff;
-				font-size: 20px;
-				padding: 15px;
-				text-decoration: none;
-				text-align: center;
-			}
+            .myButton {
+                -moz-box-shadow: inset 0 1px 0 0 #9acc85;
+                -webkit-box-shadow: inset 0 1px 0 0 #9acc85;
+                box-shadow: inset 0 1px 0 0 #9acc85;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #74ad5a), color-stop(1, #68a54b));
+                background: -moz-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+                background: -webkit-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+                background: -o-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+                background: -ms-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+                background: linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#74ad5a', endColorstr='#68a54b', GradientType=0);
+                background-color: #74ad5a;
+                border: 1px solid #3b6e22;
+                display: table;
+                cursor: pointer;
+                color: #fff;
+                font-size: 20px;
+                padding: 15px;
+                text-decoration: none;
+                text-align: center;
+            }
 
-			.myButton:hover {
-				background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #68a54b), color-stop(1, #74ad5a));
-				background: -moz-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-				background: -webkit-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-				background: -o-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-				background: -ms-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-				background: linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
-				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68a54b', endColorstr='#74ad5a', GradientType=0);
-				background-color: #68a54b;
-				color: #fff;
-			}
+            .myButton:hover {
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #68a54b), color-stop(1, #74ad5a));
+                background: -moz-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+                background: -webkit-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+                background: -o-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+                background: -ms-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+                background: linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68a54b', endColorstr='#74ad5a', GradientType=0);
+                background-color: #68a54b;
+                color: #fff;
+            }
 
-			.myButton:active {
-				position: relative;
-				top: 1px;
-				color: #fff;
-			}
-		</style>
-		<div class="oiplug_ad">
+            .myButton:active {
+                position: relative;
+                top: 1px;
+                color: #fff;
+            }
+        </style>
+        <div class="oiplug_ad">
 
-			<p><a href="https://oiplug.com/plugins/oi-yandex-maps-for-wordpress/?utm_source=wordpress&utm_medium=adminbar&utm_campaign=documentation&utm_content=1" target="_blank"
-			      class="myButton"><?php _e( 'Documentation', 'oi-yamaps' ); ?></a></p>
-		</div>
+            <p>
+                <a href="https://oiplug.com/plugins/oi-yandex-maps-for-wordpress/?utm_source=wordpress&utm_medium=adminbar&utm_campaign=documentation&utm_content=1"
+                   target="_blank"
+                   class="myButton"><?php _e( 'Documentation', 'oi-yamaps' ); ?></a></p>
+        </div>
 
 		<?php
 	}
@@ -330,6 +339,12 @@ class OIYM_SettingsPage {
 	public function height_callback() {
 		$key = 'height';
 		print oiym_psf( array( 'key' => $key, 'value' => esc_attr( $this->options[ $key ] ), ) );
+	}
+
+	public function apikey_callback() {
+		$key   = 'apikey';
+		$value = ! empty( $this->options[ $key ] ) ? esc_attr( $this->options[ $key ] ) : '';
+		print oiym_psf( array( 'key' => $key, 'value' => $value, ) );
 	}
 
 	public function width_callback() {
@@ -349,9 +364,9 @@ class OIYM_SettingsPage {
 
 	public function author_link_callback() {
 		$key = 'author_link';
-		if(!empty($this->options[ $key ]) && $this->options[ $key ] !== 0){
+		if ( ! empty( $this->options[ $key ] ) && $this->options[ $key ] !== 0 ) {
 			$value = 1;
-		}else{
+		} else {
 			$value = 0;
 		}
 		print oiym_psf( array( 'key' => $key, 'value' => $value, ) );
