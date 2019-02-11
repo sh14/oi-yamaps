@@ -12,6 +12,8 @@ namespace oiyamaps;
  * Enqueue script and styles to console
  */
 function console_enqueue_script() {
+	// load all media sources for using in admin.js
+	wp_enqueue_media();
 	wp_enqueue_script( 'oi_yamaps_admin', Plugin::$data['url'] . 'js/admin.js', array( 'jquery' ), null, true );
 	$options = get_option( __NAMESPACE__.'_options' );
 	// todo: удалить след. строку и обновить настройки
@@ -47,7 +49,7 @@ function get_icons() {
 	}
 
 	list( $images, $names ) = $matches;
-
+	$items = array();
 	foreach ( $images as $i => $image ) {
 		$items[] = '<li class="oiyamaps-icons__item" style="background-image: url(' . $image . ');" data-name="' . $names[ $i ] . '"></li>';
 	}
@@ -57,7 +59,6 @@ function get_icons() {
 }
 
 function get_edit_form() {
-	$defaults = oi_yamaps_defaults();
 
 	$fields = array(
 		'placemark' => array(

@@ -6,11 +6,13 @@
 
 namespace oiyamaps;
 
+use WP_REST_Server;
+
 function rest_api_endpoints() {
 	$endpoints = array(
 		__NAMESPACE__ . '/v1' => array(
 			'/getplace/(?P<place>.*?$)' => array(
-				'methods'  => 'GET',
+				'methods'  => WP_REST_Server::READABLE,
 				'callback' => __NAMESPACE__ . '\api_get_place',
 			),
 		),
