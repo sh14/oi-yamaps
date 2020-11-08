@@ -13,57 +13,10 @@
 
 
 namespace oiyamaps;
-
-// init plugin data
-Plugin::init();
-
-/**
- * Class contains plugin information.
- *
- * Class Plugin
- * @package oiyamaps
- */
-class Plugin {
-	public static $data = array();
-
-	private static function get_table_prefix() {
-		global $wpdb;
-
-		return $wpdb->prefix . __NAMESPACE__ . '_';
-	}
-
-	public static function init() {
-
-		// current plugin directory
-		self::$data['table_prefix'] = self::get_table_prefix();
-
-		// current plugin directory
-		self::$data['path_dir'] = plugin_dir_path( __FILE__ );
-
-		// current plugin slug
-		self::$data['slug'] = plugin_basename( self::$data['path_dir'] );
-
-		// full path to current plugin
-		self::$data['path'] = self::$data['path_dir'] . self::$data['slug'] . '.php';
-
-		// current plugin url directory
-		self::$data['url'] = plugin_dir_url( __FILE__ );
-
-		// current plugin 8kiB data
-		$file_data  = \get_file_data( self::$data['path'], array(
-			'version'     => 'Version',
-			'name'        => 'Plugin Name',
-			'link'        => 'Plugin URI',
-			'description' => 'Description',
-			'author'      => 'Author',
-			'author_uri'  => 'Author URI',
-			'domain'      => 'Text Domain',
-			'domain_path' => 'Domain Path',
-			'github_uri'  => 'GitHub Plugin URI',
-		) );
-		self::$data = array_merge( self::$data, $file_data );
-	}
-}
+require_once "Plugin.php";
+require_once "YaMap.php";
+require_once "GeoCoder.php";
+require_once "Geo/Geo.php";
 
 function is_json( $data ) {
 	json_decode( $data, true );
@@ -71,20 +24,20 @@ function is_json( $data ) {
 	return json_last_error() == JSON_ERROR_NONE;
 }
 
-require_once Plugin::$data['path_dir'] . 'include/upgrade.php';
-require_once Plugin::$data['path_dir'] . 'include/create-tables.php';
-require_once Plugin::$data['path_dir'] . 'include/address-cache.php';
-require_once Plugin::$data['path_dir'] . 'include/init.php';
+require_once 'include/upgrade.php';
+require_once 'include/create-tables.php';
+require_once 'include/address-cache.php';
+require_once 'include/init.php';
 if ( ! function_exists( 'oinput_form' ) ) {
-	require_once Plugin::$data['path_dir'] . 'include/oi-nput.php';
+	require_once 'include/oi-nput.php';
 }
 if ( function_exists( 'oinput_form' ) ) {
-	require_once Plugin::$data['path_dir'] . 'include/templates.php';
-	require_once Plugin::$data['path_dir'] . 'include/console.php';
-	require_once Plugin::$data['path_dir'] . 'include/options.php';
+	require_once 'include/templates.php';
+	require_once 'include/console.php';
+	require_once 'include/options.php';
 }
-require_once Plugin::$data['path_dir'] . 'include/ajax.php';
-//require_once Plugin::$data['path_dir'] . 'include/rest-api.php';
+require_once 'include/ajax.php';
+//require_once 'include/rest-api.php';
 
 
 /**
@@ -222,7 +175,7 @@ function get_default_api_names( $key ) {
  * @return array
  */
 function oi_yamaps_defaults() {
-	$defaults = array(
+	return [
 		'lang'           => get_locale(),
 		'height'         => '400px',
 		'width'          => '100%',
@@ -247,116 +200,7 @@ function oi_yamaps_defaults() {
 		'iconrect'       => '',
 		'controls'       => get_default_api_names( 'controls' ),
 		'behaviors'      => get_default_api_names( 'behaviors' ),
-	);
-
-	return $defaults;
-}
-
-
-// check, if maps packege is loaded
-class Ya_map_connected {
-	// default value - packege not loaded yet
-	public static $id = 0;
-	// default value - packege not loaded yet
-	public static $pid = 0;
-
-	public function staticValue() {
-		// return actual value
-		return self::$id;
-	}
-
-	public function staticValue1() {
-		// return actual value
-		return self::$pid;
-	}
-}
-
-/**
- * Check if cURL module is on.
- *
- * @return bool
- */
-function _isCurl() {
-	return function_exists( 'curl_version' );
-}
-
-/**
- * Get content via cURL.
- *
- * @param $url
- *
- * @return mixed
- */
-function curl_get_contents( $url ) {
-	$curl = curl_init( $url );
-	curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
-	curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, 1 );
-	curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
-	curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
-	$data = curl_exec( $curl );
-	curl_close( $curl );
-
-	return $data;
-}
-
-/**
- * Getting data from Yandex
- *
- * @param $place
- *
- * @return string
- */
-function oiyamap_geocode( $place ) {
-
-	//$place = mb_strtolower( $place );
-
-	// set cash key
-	$key     = md5( $place );
-	$content = '';
-
-	// if there is no data with that key
-	if ( /*WP_DEBUG == true ||*/ ! ( $content = get_address_cache( $key ) ) ) {
-
-		$place = urlencode( $place );
-
-		$options = get_option( __NAMESPACE__ . '_options' );
-
-		$url = "https://geocode-maps.yandex.ru/1.x/?geocode=" . $place . '&apikey=' . $options['apikey'] . '&format=json';
-
-		// get data by GET method
-		$content = wp_remote_get( $url, apply_filters( 'oiyamaps_wp_remote_get_args', array() ) );
-
-		if ( ! is_wp_error( $content ) ) {
-
-			// get the content body
-			$content = wp_remote_retrieve_body( $content );
-
-		} else {
-
-			// something goes wrong
-
-			if ( ! ( $content = @file_get_contents( $url ) ) ) {
-
-				// if cURL is on
-				if ( _isCurl() ) {
-
-					$content = curl_get_contents( $url );
-				} else {
-					$content = __( 'To show the map cURL must be enabled.', 'oi-yamaps' );
-
-					return $content;
-				}
-			}
-		}
-
-		if ( is_json( $content ) ) {
-			$content = json_decode( $content, true );
-		}
-
-		set_address_cache( $key, $content );
-	}
-
-	return $content;
+	];
 }
 
 
@@ -390,28 +234,71 @@ function get_place( $place = null ) {
 			// get address coordinates
 			$address = oiyamap_geocode( $coordinates );
 
-			$address     = $address['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text'];
+//			$address     = $address['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text'];
+			$address     = getFromTree( $address, [
+				'response',
+				'GeoObjectCollection',
+				'featureMember',
+				0,
+				'GeoObject',
+				'metaDataProperty',
+				'GeocoderMetaData',
+				'text'
+			] );
 			$coordinates = implode( ',', array_reverse( explode( ',', $coordinates ) ) );
 
 			$is_coordinates = true;
 		} else {
 
-			$coordinates = oiyamap_geocode( urldecode( $place ) );
-			$address     = $coordinates['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text'];
+			$coordinates = \Geo\Geo::get( $place );
+
+//			$address     = $coordinates['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text'];
+			$address = getFromTree( $coordinates, [
+				'response',
+				'GeoObjectCollection',
+				'featureMember',
+				0,
+				'GeoObject',
+				'metaDataProperty',
+				'GeocoderMetaData',
+				'text'
+			] );
 
 			// get address
-			$coordinates = $coordinates['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'];
+//			$coordinates = $coordinates['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'];
+			$coordinates = getFromTree( $coordinates, [
+				'response',
+				'GeoObjectCollection',
+				'featureMember',
+				0,
+				'GeoObject',
+				'Point',
+				'pos'
+			] );
 
 			// set coordinates by format: lon, len
 			$coordinates = implode( ',', array_reverse( explode( ' ', trim( $coordinates ) ) ) );
 		}
-		$result = array( $address, $coordinates, $is_coordinates );
 
-		return $result;
+		return [ $address, $coordinates, $is_coordinates ];
 	}
 
-	return array();
+	return [];
 }
+
+function getFromTree( $data, $tree ) {
+	$value = $data;
+	foreach ( $tree as $item ) {
+		if ( isset( $value[ $item ] ) ) {
+			$value = $value[ $item ];
+		} else {
+			return null;
+		}
+	}
+
+	return $value;
+}
+
 
 /**
  * Returns an associated array where lowercase key has original value.
@@ -627,7 +514,7 @@ function showyamap( $atts, $content = null ) {
 
 
 	// set id of map block
-	$id = Ya_map_connected::$id;
+	$id = YaMap::$id;
 
 	// if coordinates not set...
 	if ( empty( $atts['coordinates'] ) ) {
@@ -795,7 +682,7 @@ function showyamap( $atts, $content = null ) {
 			'</script>';
 
 		// set new id
-		Ya_map_connected::$id ++;
+		YaMap::$id ++;
 		// if no maps on a page...
 		if ( empty( $id ) ) {
 			$apikey = ! empty( $atts['apikey'] ) ? '&apikey=' . $atts['apikey'] : '';
@@ -1018,8 +905,8 @@ function placemark( $atts ) {
 
 	$placemark = array();
 	if ( ! empty( $atts['coordinates'] ) ) {
-		Ya_map_connected::$pid ++;
-		$atts['pid'] = Ya_map_connected::$pid;
+		YaMap::$pid ++;
+		$atts['pid'] = YaMap::$pid;
 		$placemark   = array(
 			'pid'         => $atts['pid'],
 			'header'      => $atts['header'],
